@@ -33,7 +33,7 @@
 				<configuration>
 					<testFailureIgnore>true</testFailureIgnore>
 					<suiteXmlFiles>
-						<suiteXmlFile>${TestsToRun}</suiteXmlFile>
+						<suiteXmlFile>com/statravel/testExecutionFiles/testNG.xml</suiteXmlFile>
 						<!-- <suiteXmlFile>TestExecutionFiles/failedTest.xml</suiteXmlFile> -->
 					</suiteXmlFiles>
 				</configuration>
