@@ -5,8 +5,6 @@ build:
    stage: build
    script:
      - 'mvn clean'
-   
-
 test:
    stage: confidence-check
    services:
