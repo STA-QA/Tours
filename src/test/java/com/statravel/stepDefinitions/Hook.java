@@ -45,7 +45,7 @@ public class Hook extends BaseUtil {
 		/*
 		 * WebDriver driver = new ChromeDriver(); driver.manage().window().maximize();
 		 */
-		driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(180, TimeUnit.SECONDS);
 System.out.println("opened driver");
 	}
 
