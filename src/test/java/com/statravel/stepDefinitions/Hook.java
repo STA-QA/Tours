@@ -23,6 +23,7 @@ import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.DriverManagerType;
 import io.github.bonigarcia.wdm.WebDriverManager;
 public class Hook extends BaseUtil {
+    
 	 static ExtentReports extentReports;
 	 static ExtentHtmlReporter htmlReporter;
 	 static ITestResult iTestResult;
