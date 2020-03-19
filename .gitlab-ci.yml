@@ -1,5 +1,6 @@
 # This template uses jdk8 for verifying and deploying images
-image: maven:3.6.2-jdk-8
+#image: maven:3.6.2-jdk-8
+image: maven:3.3-jdk-8-windows
 
 build:
    tags:
@@ -17,7 +18,7 @@ test:
      - npm run confidence-check --host=selenium__standalone-chrome
    stage: test
    script:
-     - 'mvn test'
+     - 'mvn install'
    artifacts:
      paths:
      - target/cucumber-results-feature-overview.html
