@@ -1,6 +1,6 @@
 # This template uses jdk8 for verifying and deploying images
 #image: maven:3.6.2-jdk-8
-image: 3.6.1-java8-windowsservercore-1809
+image: maven:3.3-jdk-8-windows
 
 build:
    tags:
