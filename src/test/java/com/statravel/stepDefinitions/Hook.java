@@ -27,7 +27,6 @@ public class Hook extends BaseUtil {
 	 static ExtentReports extentReports;
 	 static ExtentHtmlReporter htmlReporter;
 	 static ITestResult iTestResult;
-
 	// private static WebDriver driver;
 	
 	@Before
