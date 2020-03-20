@@ -1,6 +1,6 @@
 # This template uses jdk8 for verifying and deploying images
-image: maven:3.6.2-jdk-8
-
+#image: maven:3.6.2-jdk-8
+image: maven-jdk8ibm-git-awscli:latest
 build:
    stage: build
    script:
