@@ -2,8 +2,6 @@
 image: maven:3.6.2-jdk-8
 
 build:
-   tags:
-     - win
    stage: build
    script:
      - 'mvn clean'
