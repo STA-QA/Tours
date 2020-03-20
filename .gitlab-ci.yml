@@ -15,7 +15,7 @@ test:
      - npm run confidence-check --host=selenium__standalone-chrome
    stage: test
    script:
-     - 'mvn install'
+     - 'mvn test'
    artifacts:
      paths:
      - target/cucumber-results-feature-overview.html
