@@ -40,8 +40,8 @@ public class Hook extends BaseUtil {
     ChromeOptions options = new ChromeOptions();
 	options.setExperimentalOption("useAutomationExtension", false);
 		options.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-		//options.addArguments("start-maximized");
-		//options.addArguments("--headless")
+		options.addArguments("start-maximized");
+		options.addArguments("--headless")
 		driver = new ChromeDriver(options);
 		/*
 		 * WebDriver driver = new ChromeDriver(); driver.manage().window().maximize();
