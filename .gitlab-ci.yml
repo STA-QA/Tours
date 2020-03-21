@@ -2,7 +2,6 @@
 #image: maven:3.6.2-jdk-8
 #image: maven:3-jdk-8
 image: maven:3.3-jdk-8
-image: standalone-chrome:latest
 
 build:
    tags:
@@ -14,8 +13,8 @@ build:
 test:
    stage: confidence-check
    services:
-     - selenium/standalone-chrome
-     - selenium/node-chrome:3.14.0-gallium
+     - selenium/standalone-chrome:latest
+#     - selenium/node-chrome:3.14.0-gallium
    script:
      - npm run confidence-check --host=selenium__standalone-chrome
    stage: test
