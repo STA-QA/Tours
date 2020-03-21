@@ -2,6 +2,7 @@
 #image: maven:3.6.2-jdk-8
 #image: maven:3-jdk-8
 image: maven:3.3-jdk-8
+image: standalone-chrome:latest
 
 build:
    tags:
