@@ -1,10 +1,8 @@
 # This template uses jdk8 for verifying and deploying images
 #image: maven:3.6.2-jdk-8
 #image: maven:3-jdk-8
-image: maven:3.3-jdk-8
+image: maven-chrome:latest
 
-before_script:
-  - - selenium/standalone-chrome:latest
 
 build:
    tags:
