@@ -39,7 +39,7 @@ public class Hook extends BaseUtil {
 	public void initializeTest(Scenario scenario) {
 	   Capabilities chromeCapabilities = DesiredCapabilities.chrome();
 		try {
-			WebDriver driver = new RemoteWebDriver(new URL("http:127.0.0.1:4444/wd/hub"), chromeCapabilities);
+			WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), chromeCapabilities);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Driver error");
