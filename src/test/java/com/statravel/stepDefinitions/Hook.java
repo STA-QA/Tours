@@ -43,9 +43,8 @@ public class Hook extends BaseUtil {
 			System.out.println("Driver error");
 			e.printStackTrace();
 		}
-	
-		driver = new ChromeDriver(options);
-		driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+		
+	   driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
 
 	}
 
