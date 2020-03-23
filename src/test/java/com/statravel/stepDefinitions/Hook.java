@@ -33,16 +33,16 @@ public class Hook extends BaseUtil {
 	 static ExtentHtmlReporter htmlReporter;
 	 static ITestResult iTestResult;
 
- //private static WebDriver driver;
+ private static WebDriver driver;
 	
 	@Before
 	public void initializeTest(Scenario scenario) {
-	   // cap = DesiredCapabilities.chrome(); // no need path of chrome exe
-         //   cap.setBrowserName("chrome");
-           // cap.setPlatform(Platform.LINUX);
+	   Capabilities cap = DesiredCapabilities.chrome(); // no need path of chrome exe
+            cap.setBrowserName("chrome");
+            cap.setPlatform(Platform.LINUX);
 	   Capabilities chromeCapabilities = DesiredCapabilities.chrome();
 		try {
-		WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), chromeCapabilities);
+		 driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), cap);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Driver error");
@@ -52,7 +52,7 @@ public class Hook extends BaseUtil {
 		
 	//	System.setProperty("wdm.proxy", "http://genproxy.corp.amdocs.com:8080");
      //  WebDriverManager.chromedriver().config().setProperties("webdrivermanager.properties");
-    	DriverManagerType chrome = DriverManagerType.CHROME;
+  /*  	DriverManagerType chrome = DriverManagerType.CHROME;
     	ChromeDriverManager.getInstance(chrome).setup();
     	ChromeOptions options = new ChromeOptions();
 		options.setExperimentalOption("useAutomationExtension", false);
@@ -60,7 +60,7 @@ public class Hook extends BaseUtil {
 	//	options.setBinary("/./bin/google-chrome");
 	//	options.addArguments("start-maximized");
 		//options.addArguments("--headless")
-		driver = new ChromeDriver(options);
+		driver = new ChromeDriver(options);*/
 		driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
 
 	}
