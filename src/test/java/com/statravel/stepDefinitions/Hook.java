@@ -37,12 +37,12 @@ public class Hook extends BaseUtil {
 	
 	@Before
 	public void initializeTest(Scenario scenario) {
-	    cap = DesiredCapabilities.chrome(); // no need path of chrome exe
-            cap.setBrowserName("chrome");
-            cap.setPlatform(Platform.LINUX);
-	   //Capabilities chromeCapabilities = DesiredCapabilities.chrome();
+	   // cap = DesiredCapabilities.chrome(); // no need path of chrome exe
+         //   cap.setBrowserName("chrome");
+           // cap.setPlatform(Platform.LINUX);
+	   Capabilities chromeCapabilities = DesiredCapabilities.chrome();
 		try {
-			driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), cap);
+			driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), chromeCapabilities);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Driver error");
