@@ -38,8 +38,8 @@ public class Hook extends BaseUtil {
 	@Before
 	public void initializeTest(Scenario scenario) {
 	   Capabilities cap = DesiredCapabilities.chrome(); // no need path of chrome exe
-            cap.setBrowserName("chrome");
-            cap.setPlatform(Platform.LINUX);
+     //       cap.setBrowserName("chrome");
+    //        cap.setPlatform(Platform.LINUX);
 	   Capabilities chromeCapabilities = DesiredCapabilities.chrome();
 		try {
 		 driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), cap);
