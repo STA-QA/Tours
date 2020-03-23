@@ -37,18 +37,18 @@ public class Hook extends BaseUtil {
 	
 	@Before
 	public void initializeTest(Scenario scenario) {
-/*	   Capabilities chromeCapabilities = DesiredCapabilities.chrome();
+	   Capabilities chromeCapabilities = DesiredCapabilities.chrome();
 		try {
 			WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), chromeCapabilities);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Driver error");
 			e.printStackTrace();
-		}*/
+		}
 	//	System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/WebDrivers/chromedriver.exe");
 		
 	//	System.setProperty("wdm.proxy", "http://genproxy.corp.amdocs.com:8080");
-       WebDriverManager.chromedriver().config().setProperties("webdrivermanager.properties");
+  /*     WebDriverManager.chromedriver().config().setProperties("webdrivermanager.properties");
     	DriverManagerType chrome = DriverManagerType.CHROME;
     	ChromeDriverManager.getInstance(chrome).setup();
     	ChromeOptions options = new ChromeOptions();
@@ -57,7 +57,7 @@ public class Hook extends BaseUtil {
 	//	options.setBinary("/./bin/google-chrome");
 	//	options.addArguments("start-maximized");
 		//options.addArguments("--headless")
-		driver = new ChromeDriver(options);
+		driver = new ChromeDriver(options);*/
 		driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
 
 	}
