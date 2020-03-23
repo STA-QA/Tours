@@ -33,7 +33,7 @@ public class Hook extends BaseUtil {
 	 static ExtentHtmlReporter htmlReporter;
 	 static ITestResult iTestResult;
 
- private static WebDriver driver;
+// private static WebDriver driver;
 	
 	@Before
 	public void initializeTest(Scenario scenario) {
