@@ -33,7 +33,7 @@ public class Hook extends BaseUtil {
 	 static ExtentHtmlReporter htmlReporter;
 	 static ITestResult iTestResult;
 
-	
+	private WebDriver driver=null;
 	
 	@Before
 	public void initializeTest(Scenario scenario) {
@@ -42,7 +42,7 @@ public class Hook extends BaseUtil {
             cap.setPlatform(Platform.LINUX);
 	   //Capabilities chromeCapabilities = DesiredCapabilities.chrome();
 		try {
-			WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), cap);
+			driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), cap);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Driver error");
