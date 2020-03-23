@@ -48,7 +48,7 @@ public class Hook extends BaseUtil {
 	//	System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/WebDrivers/chromedriver.exe");
 		
 	//	System.setProperty("wdm.proxy", "http://genproxy.corp.amdocs.com:8080");
-       WebDriverManager.chromedriver().config().setProperties("webdrivermanager.properties");
+     //  WebDriverManager.chromedriver().config().setProperties("webdrivermanager.properties");
     	DriverManagerType chrome = DriverManagerType.CHROME;
     	ChromeDriverManager.getInstance(chrome).setup();
     	ChromeOptions options = new ChromeOptions();
