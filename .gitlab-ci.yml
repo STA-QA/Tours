@@ -18,6 +18,8 @@ test:
    stage: confidence-check
    services:
       - selenium/node-chrome
+        ports:
+           -"4444:4444"
 #     - selenium/standalone-chrome:3
 #     - elastestbrowsers/chrome:latest
 #     - selenium/node-chrome:3.14.0-gallium
