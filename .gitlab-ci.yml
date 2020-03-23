@@ -1,26 +1,14 @@
-# This template uses jdk8 for verifying and deploying images
-#image: maven:3.6.2-jdk-8
-#image: maven:3-jdk-8
-# This template uses jdk8 for verifying and deploying images
 image: maven:3.3-jdk-8
-#image: docker-node-jdk-chrome-firefox:latest
-#auth:
-#    username: kiranmai07
-#    password: 1qaz!QAZ
 
 build:
    stage: build
    script:
      - 'mvn clean'
-   
 
 test:
    stage: confidence-check
    services:
-#      - selenium/node-chrome
-      - selenium/standalone-chrome
-#      - elastestbrowsers/chrome:latest
-#     - selenium/node-chrome:3.14.0-gallium
+     - selenium/standalone-chrome
    script:
      - npm run confidence-check --host=selenium__standalone-chrome
    stage: test
