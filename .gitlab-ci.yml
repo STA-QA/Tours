@@ -19,8 +19,8 @@ test:
    services:
 #      - selenium/node-chrome
       - selenium/standalone-chrome
-   ports:
-      - "4444:4444"
+           ports:
+              - "4444:4444"
 #     - elastestbrowsers/chrome:latest
 #     - selenium/node-chrome:3.14.0-gallium
    script:
