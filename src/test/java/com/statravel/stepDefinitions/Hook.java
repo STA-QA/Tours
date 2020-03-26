@@ -39,7 +39,6 @@ public class Hook extends BaseUtil {
 		try {
 		 driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), cap);
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Driver error");
 			e.printStackTrace();
 		}
