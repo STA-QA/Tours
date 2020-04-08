@@ -2,23 +2,23 @@
 <testng-results skipped="0" failed="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="34887" started-at="2020-04-07T14:53:43Z" finished-at="2020-04-07T14:54:18Z">
+  <suite name="Default suite" duration-ms="36722" started-at="2020-04-08T16:47:06Z" finished-at="2020-04-08T16:47:43Z">
     <groups>
       <group name="cucumber">
-        <method signature="AbstractTestNGCucumberTests.feature(cucumber.api.testng.CucumberFeatureWrapper)[pri:0, instance:com.statravel.runners.TestRunner@1877ab81]" name="feature" class="cucumber.api.testng.AbstractTestNGCucumberTests"/>
+        <method signature="AbstractTestNGCucumberTests.feature(cucumber.api.testng.CucumberFeatureWrapper)[pri:0, instance:com.statravel.runners.TestRunner@646d64ab]" name="feature" class="cucumber.api.testng.AbstractTestNGCucumberTests"/>
       </group> <!-- cucumber -->
     </groups>
-    <test name="Default test" duration-ms="34887" started-at="2020-04-07T14:53:43Z" finished-at="2020-04-07T14:54:18Z">
+    <test name="Default test" duration-ms="36722" started-at="2020-04-08T16:47:06Z" finished-at="2020-04-08T16:47:43Z">
       <class name="com.statravel.runners.TestRunner">
-        <test-method status="PASS" signature="setup()[pri:0, instance:com.statravel.runners.TestRunner@1877ab81]" name="setup" is-config="true" duration-ms="22" started-at="2020-04-07T15:53:43Z" finished-at="2020-04-07T15:53:43Z">
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.statravel.runners.TestRunner@646d64ab]" name="setup" is-config="true" duration-ms="18" started-at="2020-04-08T17:47:06Z" finished-at="2020-04-08T17:47:06Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method status="PASS" signature="setUpClass()[pri:0, instance:com.statravel.runners.TestRunner@1877ab81]" name="setUpClass" is-config="true" duration-ms="626" started-at="2020-04-07T15:53:43Z" finished-at="2020-04-07T15:53:43Z">
+        <test-method status="PASS" signature="setUpClass()[pri:0, instance:com.statravel.runners.TestRunner@646d64ab]" name="setUpClass" is-config="true" duration-ms="384" started-at="2020-04-08T17:47:06Z" finished-at="2020-04-08T17:47:07Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUpClass -->
-        <test-method status="PASS" signature="feature(cucumber.api.testng.CucumberFeatureWrapper)[pri:0, instance:com.statravel.runners.TestRunner@1877ab81]" name="feature" duration-ms="33338" started-at="2020-04-07T15:53:43Z" description="Runs Cucumber Feature" data-provider="features" finished-at="2020-04-07T15:54:17Z">
+        <test-method status="PASS" signature="feature(cucumber.api.testng.CucumberFeatureWrapper)[pri:0, instance:com.statravel.runners.TestRunner@646d64ab]" name="feature" duration-ms="35857" started-at="2020-04-08T17:47:07Z" description="Runs Cucumber Feature" data-provider="features" finished-at="2020-04-08T17:47:42Z">
           <params>
             <param index="0">
               <value>
@@ -29,11 +29,11 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- feature -->
-        <test-method status="PASS" signature="tearDownClass()[pri:0, instance:com.statravel.runners.TestRunner@1877ab81]" name="tearDownClass" is-config="true" duration-ms="751" started-at="2020-04-07T15:54:17Z" finished-at="2020-04-07T15:54:18Z">
+        <test-method status="PASS" signature="tearDownClass()[pri:0, instance:com.statravel.runners.TestRunner@646d64ab]" name="tearDownClass" is-config="true" duration-ms="386" started-at="2020-04-08T17:47:42Z" finished-at="2020-04-08T17:47:43Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDownClass -->
-        <test-method status="PASS" signature="setupp()[pri:0, instance:com.statravel.runners.TestRunner@1877ab81]" name="setupp" is-config="true" duration-ms="699" started-at="2020-04-07T15:54:18Z" finished-at="2020-04-07T15:54:18Z">
+        <test-method status="PASS" signature="setupp()[pri:0, instance:com.statravel.runners.TestRunner@646d64ab]" name="setupp" is-config="true" duration-ms="212" started-at="2020-04-08T17:47:43Z" finished-at="2020-04-08T17:47:43Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setupp -->
