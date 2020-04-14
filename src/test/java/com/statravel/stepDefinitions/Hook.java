@@ -32,23 +32,23 @@ public class Hook extends BaseUtil {
 	public void initializeTest(Scenario scenario) {
 		// To run the tests in local
 
-		/*System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/WebDrivers/chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/WebDrivers/chromedriver.exe");
 
 		ChromeOptions options = new ChromeOptions();
 		options.setExperimentalOption("useAutomationExtension", false);
 		options.addArguments("start-maximized");
 		// options.addArguments("----headless");
-		driver = new ChromeDriver(options);*/
+		driver = new ChromeDriver(options);
 
 		// To run tests in gitlab
 
-		Capabilities cap = DesiredCapabilities.chrome();
+		/*Capabilities cap = DesiredCapabilities.chrome();
 		try {
 			driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), cap);
 		} catch (MalformedURLException e) {
 			System.out.println("Driver error");
 			e.printStackTrace();
-		}
+		}*/
 
 		driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
 

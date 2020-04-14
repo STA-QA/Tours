@@ -30,7 +30,7 @@ public class HomePage extends BaseUtil {
 	@FindBy(how = How.XPATH, using = "//*[@class='sta-select']")
 	public WebElement SortDropDown;
 
-	@FindBy(how = How.ID, using = "Discounts")
+	@FindBy(how = How.XPATH, using = "//*[@value='withDiscount']")
 	public WebElement Discounts;
 
 	@FindBy(how = How.ID, using = "duration min")
@@ -56,6 +56,10 @@ public class HomePage extends BaseUtil {
 
 	@FindBy(how = How.XPATH, using = "  //div[@class='sta-text-xs sta-font-bold sta-ml-1 sta-inline-block']")
 	public List<WebElement> DurationList;
+	
+	@FindBy(how = How.CLASS_NAME, using = "sta-h2 sta-text-2xl")
+	public WebElement NumberofToursFound;
+		
 
 	public void ClickGridViewIcon() {
 		GridViewIcon.click();
@@ -177,5 +181,19 @@ public class HomePage extends BaseUtil {
 
 	}
 }
+	
+		public void ClickPromotionFilter() throws InterruptedException{
+			if (Discounts.isDisplayed() && Discounts.isEnabled()) {
+			   	Discounts.click();
+			   	System.out.println("Promotion clicked");
+			}
+		}
+		
+		public void VerifyTourswithPromotions() throws InterruptedException{
+			String value = NumberofToursFound.getText();
+			int ToursFound = Integer.parseInt(value.replaceAll("\\D", ""));
+			System.out.println(ToursFound);
+		}
+	
 
 }

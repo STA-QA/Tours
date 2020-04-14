@@ -1,39 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="1" passed="1">
+<testng-results skipped="0" failed="1" total="1" passed="0">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="36722" started-at="2020-04-08T16:47:06Z" finished-at="2020-04-08T16:47:43Z">
+  <suite name="Default suite" duration-ms="42606" started-at="2020-04-13T21:13:00Z" finished-at="2020-04-13T21:13:43Z">
     <groups>
       <group name="cucumber">
-        <method signature="AbstractTestNGCucumberTests.feature(cucumber.api.testng.CucumberFeatureWrapper)[pri:0, instance:com.statravel.runners.TestRunner@646d64ab]" name="feature" class="cucumber.api.testng.AbstractTestNGCucumberTests"/>
+        <method signature="AbstractTestNGCucumberTests.feature(cucumber.api.testng.CucumberFeatureWrapper)[pri:0, instance:com.statravel.runners.TestRunner@1877ab81]" name="feature" class="cucumber.api.testng.AbstractTestNGCucumberTests"/>
       </group> <!-- cucumber -->
     </groups>
-    <test name="Default test" duration-ms="36722" started-at="2020-04-08T16:47:06Z" finished-at="2020-04-08T16:47:43Z">
+    <test name="Default test" duration-ms="42606" started-at="2020-04-13T21:13:00Z" finished-at="2020-04-13T21:13:43Z">
       <class name="com.statravel.runners.TestRunner">
-        <test-method status="PASS" signature="setup()[pri:0, instance:com.statravel.runners.TestRunner@646d64ab]" name="setup" is-config="true" duration-ms="18" started-at="2020-04-08T17:47:06Z" finished-at="2020-04-08T17:47:06Z">
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.statravel.runners.TestRunner@1877ab81]" name="setup" is-config="true" duration-ms="17" started-at="2020-04-13T22:13:00Z" finished-at="2020-04-13T22:13:00Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method status="PASS" signature="setUpClass()[pri:0, instance:com.statravel.runners.TestRunner@646d64ab]" name="setUpClass" is-config="true" duration-ms="384" started-at="2020-04-08T17:47:06Z" finished-at="2020-04-08T17:47:07Z">
+        <test-method status="PASS" signature="setUpClass()[pri:0, instance:com.statravel.runners.TestRunner@1877ab81]" name="setUpClass" is-config="true" duration-ms="381" started-at="2020-04-13T22:13:00Z" finished-at="2020-04-13T22:13:01Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUpClass -->
-        <test-method status="PASS" signature="feature(cucumber.api.testng.CucumberFeatureWrapper)[pri:0, instance:com.statravel.runners.TestRunner@646d64ab]" name="feature" duration-ms="35857" started-at="2020-04-08T17:47:07Z" description="Runs Cucumber Feature" data-provider="features" finished-at="2020-04-08T17:47:42Z">
+        <test-method status="FAIL" signature="feature(cucumber.api.testng.CucumberFeatureWrapper)[pri:0, instance:com.statravel.runners.TestRunner@1877ab81]" name="feature" duration-ms="41503" started-at="2020-04-13T22:13:01Z" description="Runs Cucumber Feature" data-provider="features" finished-at="2020-04-13T22:13:42Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[User Verifies the Sort Order Functionality]]>
+                <![CDATA[User Verifies Discounts filter functionality]]>
               </value>
             </param>
           </params>
+          <exception class="cucumber.runtime.CucumberException">
+            <message>
+              <![CDATA[org.openqa.selenium.NoSuchElementException: Cannot locate an element using class name=sta-h2 sta-text-2xl
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'UKLDSQRJM2', ip: '192.168.1.245', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '1.8.0_221'
+Driver info: driver.version: RemoteWebDriver]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[cucumber.runtime.CucumberException: org.openqa.selenium.NoSuchElementException: Cannot locate an element using class name=sta-h2 sta-text-2xl
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'UKLDSQRJM2', ip: '192.168.1.245', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '1.8.0_221'
+Driver info: driver.version: RemoteWebDriver
+	at cucumber.api.testng.TestNGCucumberRunner.runCucumber(TestNGCucumberRunner.java:69)
+	at cucumber.api.testng.AbstractTestNGCucumberTests.feature(AbstractTestNGCucumberTests.java:21)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:86)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:643)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:820)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1128)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:129)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:112)
+	at org.testng.TestRunner.privateRun(TestRunner.java:782)
+	at org.testng.TestRunner.run(TestRunner.java:632)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:366)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:361)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:319)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:268)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1244)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1169)
+	at org.testng.TestNG.run(TestNG.java:1064)
+	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
+	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
+	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
+Caused by: org.openqa.selenium.NoSuchElementException: Cannot locate an element using class name=sta-h2 sta-text-2xl
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'UKLDSQRJM2', ip: '192.168.1.245', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '1.8.0_221'
+Driver info: driver.version: RemoteWebDriver
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:327)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByClassName(RemoteWebDriver.java:412)
+	at org.openqa.selenium.By$ByClassName.findElement(By.java:389)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:315)
+	at org.openqa.selenium.support.pagefactory.DefaultElementLocator.findElement(DefaultElementLocator.java:69)
+	at org.openqa.selenium.support.pagefactory.internal.LocatingElementHandler.invoke(LocatingElementHandler.java:38)
+	at com.sun.proxy.$Proxy22.getText(Unknown Source)
+	at com.statravel.codeImplementation.HomePage.VerifyTourswithPromotions(HomePage.java:192)
+	at com.statravel.stepDefinitions.HomePageStepDefinitions.only_tours_with_promotions_are_displayed(HomePageStepDefinitions.java:39)
+	at ✽.Then Only Tours with promotions are displayed(src/test/java/com/statravel/featureFiles/ShowDiscounts.feature:5)
+]]>
+            </full-stacktrace>
+          </exception> <!-- cucumber.runtime.CucumberException -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- feature -->
-        <test-method status="PASS" signature="tearDownClass()[pri:0, instance:com.statravel.runners.TestRunner@646d64ab]" name="tearDownClass" is-config="true" duration-ms="386" started-at="2020-04-08T17:47:42Z" finished-at="2020-04-08T17:47:43Z">
+        <test-method status="PASS" signature="tearDownClass()[pri:0, instance:com.statravel.runners.TestRunner@1877ab81]" name="tearDownClass" is-config="true" duration-ms="634" started-at="2020-04-13T22:13:42Z" finished-at="2020-04-13T22:13:43Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDownClass -->
-        <test-method status="PASS" signature="setupp()[pri:0, instance:com.statravel.runners.TestRunner@646d64ab]" name="setupp" is-config="true" duration-ms="212" started-at="2020-04-08T17:47:43Z" finished-at="2020-04-08T17:47:43Z">
+        <test-method status="PASS" signature="setupp()[pri:0, instance:com.statravel.runners.TestRunner@1877ab81]" name="setupp" is-config="true" duration-ms="377" started-at="2020-04-13T22:13:43Z" finished-at="2020-04-13T22:13:43Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setupp -->

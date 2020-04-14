@@ -6,4 +6,17 @@
       <class name="com.statravel.runners.TestRunner"/>
     </classes>
   </test> <!-- Default test -->
+  <test name="Default test(failed)">
+    <classes>
+      <class name="com.statravel.runners.TestRunner">
+        <methods>
+          <include name="setUpClass"/>
+          <include name="setup"/>
+          <include name="feature" invocation-numbers="0"/>
+          <include name="setupp"/>
+          <include name="tearDownClass"/>
+        </methods>
+      </class> <!-- com.statravel.runners.TestRunner -->
+    </classes>
+  </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
