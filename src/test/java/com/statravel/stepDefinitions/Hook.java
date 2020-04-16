@@ -65,7 +65,7 @@ public class Hook extends BaseUtil {
 
 		}
 
-	//	driver.quit();
+		driver.quit();
 
 	}
 
