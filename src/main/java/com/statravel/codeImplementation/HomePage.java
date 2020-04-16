@@ -75,6 +75,18 @@ public class HomePage extends BaseUtil {
 	@FindBy(how = How.ID, using = "duration max")
 	public WebElement MaxDurationText;
 
+	@FindBy(how = How.XPATH, using = "//*[@id='root']/div[2]/section/section/aside/div[5]/div[2]/div[1]/div/div[1]")
+	public WebElement MinBudgetSlider;
+	
+	@FindBy(how = How.XPATH, using = "//*[@id='root']/div[2]/section/section/aside/div[5]/div[2]/div[1]/div/div[2]")
+	public WebElement MaxBudgetSlider;
+
+	@FindBy(how = How.ID, using = "budget min")
+	public WebElement MinBudgetText;
+	
+	@FindBy(how = How.ID, using = "budget max")
+	public WebElement MaxBudgetText;
+
 
 	public void ClickGridViewIcon() {
 		GridViewIcon.click();
@@ -244,4 +256,39 @@ public class HomePage extends BaseUtil {
 		System.out.println("Min Duration is : " + HighestDuration);
 		Assert.assertTrue(HighestDuration <= MaxRange);
 	}
+	
+	public void MoveBudgetSliderToRight() throws Exception {
+		Actions move = new Actions(driver);
+		Action action = (Action) move.dragAndDropBy(MinBudgetSlider, 20, 0).build();
+		action.perform();
+		Thread.sleep(3000);
+	}
+	
+	public void MoveBudgetSliderToLeft() throws Exception {
+		Actions move = new Actions(driver);
+		Action action = (Action) move.dragAndDropBy(MaxBudgetSlider, -40, 0).build();
+		action.perform();
+		Thread.sleep(3000);
+	}	
+	
+	public void VerifyLowestPriceAccordingToPriceFilters() throws Exception {
+		int MinRange = Integer.parseInt(MinBudgetText.getAttribute("value"));
+		System.out.println("Min Budget Range on slide is : " + MinRange);
+		SelectSortOption("pricelh");
+		Thread.sleep(4000);
+		int LowPrice = Integer.parseInt(PriceList.get(0).getText().replaceAll("[^0-9]", ""));
+		System.out.println("Min Price is : " + LowPrice);
+		Assert.assertTrue(LowPrice >= MinRange);
+	}
+
+	public void VerifyHighestPriceAccordingToPriceFilters() throws Exception {
+		int MaxRange = Integer.parseInt(MaxBudgetText.getAttribute("value"));
+		System.out.println("Max Budget Range on slide is : " + MaxRange);
+		SelectSortOption("pricehl");
+		int HighPrice = Integer.parseInt(PriceList.get(0).getText().replaceAll("[^0-9]", ""));
+		System.out.println("Max Price is : " + HighPrice);
+		Assert.assertTrue(HighPrice <= MaxRange);
+
+	}
+
 }

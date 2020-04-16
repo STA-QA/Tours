@@ -28,5 +28,25 @@ public class FiltersDefinitions extends BaseUtil{
     public void highest_duration_should_be_adjusted() throws Throwable {
         Home.VerifyHighestPriceAccordingToDurationFilters();
     }
+    
+    @And("^User Slides the Budget for Minimum range$")
+    public void user_slides_the_budget_for_minimum_range() throws Throwable {
+        Home.MoveBudgetSliderToRight();
+    }
+
+    @And("^User Slides the Budget for Maximum range$")
+    public void user_slides_the_budget_for_maximum_range() throws Throwable {
+        Home.MoveBudgetSliderToLeft();
+    }
+    
+    @Then("^Lowest price tour should be adjusted$")
+    public void lowest_price_tour_should_be_adjusted() throws Throwable {
+        Home.VerifyLowestPriceAccordingToPriceFilters();
+    }
+
+    @Then("^Highest price tour should be adjusted$")
+    public void highest_price_tour_should_be_adjusted() throws Throwable {
+     Home.VerifyHighestPriceAccordingToPriceFilters();   
+    }
 
 }
