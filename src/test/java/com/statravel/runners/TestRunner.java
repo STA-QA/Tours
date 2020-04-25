@@ -9,7 +9,7 @@ import com.statravel.base.Functions;
 import cucumber.api.CucumberOptions;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
 
-@CucumberOptions(features = "src/test/java/com/statravel/featureFiles/PriceFilter.feature", plugin = {
+@CucumberOptions(features = "src/test/java/com/statravel/featureFiles/PromotionalToursCount.feature", plugin = {
 		"com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:", "rerun:target/rerun.txt",
 		"json:target/cucumber-reports/cucumber.json" }, glue = "com.statravel.stepDefinitions")
 public class TestRunner extends AbstractTestNGCucumberTests {

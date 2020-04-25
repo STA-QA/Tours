@@ -35,5 +35,14 @@ public class HomePageStepDefinitions extends BaseUtil{
         Home.VerifyTourswithPromotions();
     }
 
+    @And("^Clicks on Discounts checkbox$")
+	public void clicks_on_discounts_checkbox() throws Throwable {
+	    Home.ClickOnDiscountCheckbox();    
+	}
     
+    @Then("^Only promotional tours should be displayed$")
+    public void only_promotional_tours_should_be_displayed() throws Throwable {
+    	Thread.sleep(5000);
+        Home.VerifyDiscountedToursCount();
+    }
 }

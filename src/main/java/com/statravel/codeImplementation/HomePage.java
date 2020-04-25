@@ -86,8 +86,24 @@ public class HomePage extends BaseUtil {
 	
 	@FindBy(how = How.ID, using = "budget max")
 	public WebElement MaxBudgetText;
+	
+	@FindBy(how = How.ID, using = "Discounts-desktop")
+	public WebElement DiscountCheckbox;
 
+	@FindBy(how = How.XPATH, using = "//li[contains(@class,'rc-pagination-item rc-pagination-item-')]")
+	public List<WebElement> PaginationList;
 
+	@FindBy(how = How.XPATH, using = "//li[@class='rc-pagination-next']")
+	public WebElement nextpageicon;
+	
+	@FindBy(how = How.XPATH, using = "//h2[@class='sta-h2 sta-text-2xl']")
+	public WebElement NoOfToursText;
+	
+	@FindBy(how = How.XPATH, using = "//div[@class='sta-card-list-item sta-mt-5']/div[@class='sta-discount']")
+	public List<WebElement> TourwithDiscount;
+	
+	
+	
 	public void ClickGridViewIcon() {
 		GridViewIcon.click();
 	}
@@ -288,7 +304,36 @@ public class HomePage extends BaseUtil {
 		int HighPrice = Integer.parseInt(PriceList.get(0).getText().replaceAll("[^0-9]", ""));
 		System.out.println("Max Price is : " + HighPrice);
 		Assert.assertTrue(HighPrice <= MaxRange);
-
 	}
 
+	public void ClickOnDiscountCheckbox(){
+		DiscountCheckbox.click();
+	}
+	
+	public void VerifyDiscountedToursCount() throws InterruptedException{
+		int totalTours = Integer.parseInt(NoOfToursText.getText().replaceAll("[^0-9]", ""));
+		ArrayList<Integer> Pages = new ArrayList<>();
+		int a= PaginationList.size();
+		System.out.println("a is : " + a);
+		int discountedtours=0;
+		
+		for (WebElement we : PaginationList){				
+			int pageno = Integer.parseInt(we.getAttribute("title"));
+			Pages.add(pageno);			
+		}
+		
+		System.out.println(Pages);
+		System.out.println( "Total no. of Pages are " + Collections.max(Pages));
+		int discountedTours1=TourwithDiscount.size();	
+		for (int i=0; i<(Collections.max(Pages)-1); i++){					
+			nextpageicon.click();
+			Thread.sleep(2000);		
+			discountedtours=TourwithDiscount.size();
+			int updateddiscountedTours = discountedtours + discountedTours1;
+			discountedTours1=updateddiscountedTours;
+		}
+		System.out.println("Discounted Tours Count:  "+ discountedTours1);
+		System.out.println("the text is: "+totalTours);
+		Assert.assertEquals(discountedTours1, totalTours);
+	}
 }
