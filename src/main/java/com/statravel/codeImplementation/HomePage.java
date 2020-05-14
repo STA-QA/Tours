@@ -30,7 +30,7 @@ public class HomePage extends BaseUtil {
 	@FindBy(how = How.ID, using = "Atoms/Icons/List-View")
 	public WebElement ListViewIcon;
 
-	@FindBy(how = How.XPATH, using = "//*[@class='sta-select']")
+	@FindBy(how = How.XPATH, using = "//*[@class='sta-select sta-cursor-pointer']")
 	public WebElement SortDropDown;
 
 	@FindBy(how = How.XPATH, using = "//*[@value='withDiscount']")
@@ -63,28 +63,28 @@ public class HomePage extends BaseUtil {
 	@FindBy(how = How.CLASS_NAME, using = "sta-h2 sta-text-2xl")
 	public WebElement NumberofToursFound;
 	
-	@FindBy(how = How.XPATH, using = "//*[@id='root']/div[2]/section/section/aside/div[4]/div[2]/div[1]/div/div[1]")
+	@FindBy(how = How.XPATH, using = "//*[@id='root']/div[2]/section/section/aside/div[4]/div[2]/div[2]/div/div/div/div[1]")
 	public WebElement MinDurationSlider;
 	
-	@FindBy(how = How.XPATH, using = "//*[@id='root']/div[2]/section/section/aside/div[4]/div[2]/div[1]/div/div[2]")
+	@FindBy(how = How.XPATH, using = "//*[@id='root']/div[2]/section/section/aside/div[4]/div[2]/div[2]/div/div/div/div[2]")
 	public WebElement MaxDurationSlider;
 
-	@FindBy(how = How.ID, using = "duration min")
+	@FindBy(how = How.XPATH, using = "//*[@id='root']/div[2]/section/section/aside/div[4]/div[2]/div[1]/div[1]/span[1]")
 	public WebElement MinDurationText;
 	
-	@FindBy(how = How.ID, using = "duration max")
+	@FindBy(how = How.XPATH, using = "//*[@id='root']/div[2]/section/section/aside/div[4]/div[2]/div[1]/div[2]/span[1]")
 	public WebElement MaxDurationText;
 
-	@FindBy(how = How.XPATH, using = "//*[@id='root']/div[2]/section/section/aside/div[5]/div[2]/div[1]/div/div[1]")
+	@FindBy(how = How.XPATH, using = "//*[@id='root']/div[2]/section/section/aside/div[5]/div[2]/div[2]/div/div/div[1]")
 	public WebElement MinBudgetSlider;
 	
-	@FindBy(how = How.XPATH, using = "//*[@id='root']/div[2]/section/section/aside/div[5]/div[2]/div[1]/div/div[2]")
+	@FindBy(how = How.XPATH, using = "//*[@id='root']/div[2]/section/section/aside/div[5]/div[2]/div[2]/div/div/div[2]")
 	public WebElement MaxBudgetSlider;
 
-	@FindBy(how = How.ID, using = "budget min")
+	@FindBy(how = How.XPATH, using = "//*[@id='root']/div[2]/section/section/aside/div[5]/div[2]/div[1]/div[1]/span[2]")
 	public WebElement MinBudgetText;
 	
-	@FindBy(how = How.ID, using = "budget max")
+	@FindBy(how = How.XPATH, using = "//*[@id='root']/div[2]/section/section/aside/div[5]/div[2]/div[1]/div[2]/span[2]")
 	public WebElement MaxBudgetText;
 	
 	@FindBy(how = How.ID, using = "Discounts-desktop")
@@ -253,7 +253,7 @@ public class HomePage extends BaseUtil {
 	}
 	
 	public void VerifyLowestDurationAccordingToDurationFilters() throws Exception {
-		int MinRange = Integer.parseInt(MinDurationText.getAttribute("value"));
+		int MinRange = Integer.parseInt(MinDurationText.getText());
 		System.out.println("Min Duration on slide is : " + MinRange);
 		SelectSortOption("durationShortest");
 		Thread.sleep(4000);
@@ -264,7 +264,7 @@ public class HomePage extends BaseUtil {
 	}
 	
 	public void VerifyHighestPriceAccordingToDurationFilters() throws Exception {
-		int MaxRange = Integer.parseInt(MaxDurationText.getAttribute("value"));
+		int MaxRange = Integer.parseInt(MaxDurationText.getText());
 		System.out.println("Min Duration on slide is : " + MaxRange);
 		SelectSortOption("durationLongest");
 		Thread.sleep(4000);
@@ -288,7 +288,7 @@ public class HomePage extends BaseUtil {
 	}	
 	
 	public void VerifyLowestPriceAccordingToPriceFilters() throws Exception {
-		int MinRange = Integer.parseInt(MinBudgetText.getAttribute("value"));
+		int MinRange = Integer.parseInt(MinBudgetText.getText());
 		System.out.println("Min Budget Range on slide is : " + MinRange);
 		SelectSortOption("pricelh");
 		Thread.sleep(4000);
@@ -298,7 +298,7 @@ public class HomePage extends BaseUtil {
 	}
 
 	public void VerifyHighestPriceAccordingToPriceFilters() throws Exception {
-		int MaxRange = Integer.parseInt(MaxBudgetText.getAttribute("value"));
+		int MaxRange = Integer.parseInt(MaxBudgetText.getText());
 		System.out.println("Max Budget Range on slide is : " + MaxRange);
 		SelectSortOption("pricehl");
 		int HighPrice = Integer.parseInt(PriceList.get(0).getText().replaceAll("[^0-9]", ""));
