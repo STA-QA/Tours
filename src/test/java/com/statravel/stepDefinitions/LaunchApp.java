@@ -14,7 +14,7 @@ public class LaunchApp extends BaseUtil {
 	@Given("^User launches UK tours search page$")
 	public void user_launches_uk_tours_search_page() throws Throwable {
 		System.out.println("App Launch");
-		driver.navigate().to("https://dev-tours.statravel.co.uk/search/");
+		driver.navigate().to("https://tours.statravel.co.uk/search/");
 		driver.manage().window().maximize();
 		Thread.sleep(5000);
 		/*
