@@ -40,16 +40,16 @@ public class TourService {
 		ArrayList<CheapestTour> cTours = new ArrayList<CheapestTour>();
 		for (int i = 0; i < tour.getTourOptions().size(); i++) {
 			List<Double> prices = JsonPath.read(new Gson().toJson(tour, TourDetailsResponse.class), "$.tourOptions[" + i
-					+ "].seasons[*].departures[*].sellingRegions[ ?(@.sellingRegion == '" + region + "')].prices[*].adultPrice.discounted");
+					+ "].seasons[*].departures[*].sellingRegions[ ?(@.sellingRegion == '" + region + "')][?(@.availability == 'available')].prices[*].adultPrice.discounted");
 			Float minPrice = Float.valueOf(Collections.min(prices).toString());
-			Filter<?> filter = filter(where("sellingRegions[?(@.sellingRegion == '" + region + "')].prices[*].adultPrice.discounted")
+			Filter<?> filter = filter(where("sellingRegions[?(@.sellingRegion == '" + region + "')][?(@.availability == 'available')].prices[*].adultPrice.discounted")
 					.is(Collections.min(prices)));
 			String departureId = JsonPath.read(new Gson().toJson(tour, TourDetailsResponse.class),
 					"$.tourOptions[" + i + "].seasons[*].departures[?][0].id", filter);
 			Filter<?> filterMinpr = filter(where("adultPrice.discounted").is(Collections.min(prices)));
 			Integer full = JsonPath.read(
 					new Gson().toJson(tour, TourDetailsResponse.class), "$.tourOptions[" + i + "].seasons[*].departures[?(@.id == '"
-							+ departureId + "')].sellingRegions[?(@.sellingRegion == '" + region + "')].prices[?][0].adultPrice.full",
+							+ departureId + "')].sellingRegions[?(@.sellingRegion == '" + region + "')][?(@.availability == 'available')].prices[?][0].adultPrice.full",
 					filterMinpr);
 			Departure dep = tour.getTourOptions().get(i).getSeasons().stream().flatMap(s -> s.getDepartures().stream())
 					.filter(d -> departureId.equals(d.getId())).findFirst().get();
