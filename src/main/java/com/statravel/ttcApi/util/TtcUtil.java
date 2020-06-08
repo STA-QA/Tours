@@ -2,6 +2,7 @@ package com.statravel.ttcApi.util;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.ws.rs.client.Client;
@@ -73,6 +74,15 @@ public class TtcUtil {
 
 	public static TourDetailsResponse getRandomTourFromResponse(Brand brand, Region region) {
 		ArrayList<TourDetailsResponse> tourResponse = getTour(brand, region);
+		return tourResponse.get(new Random().nextInt(tourResponse.size()));
+	}
+	
+	public static TourDetailsResponse getAllCheapestToursFromResponse(Brand brand, Region region) {
+		ArrayList<TourDetailsResponse> tourResponse = getTour(brand, region);
+		for(TourDetailsResponse allRs : tourResponse) {
+			TourService service = new TourService(allRs);
+			List<CheapestTour> listTour = service.getCheapestToursFromJsonRS();
+		}
 		return tourResponse.get(new Random().nextInt(tourResponse.size()));
 	}
 

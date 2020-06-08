@@ -106,6 +106,10 @@ public class CheapestTour {
 		Period period = Period.between(LocalDate.parse(startDate), LocalDate.parse(endDate));
 		return period.getDays() + 1;
 	}
+	
+	public LocalDate getStartDate() {
+		return LocalDate.parse(this.getDeparture().getOperatingStartDate());
+	}
 
 	public String getStartCity() {
 		return this.getContent().getStartPlace().getCity();

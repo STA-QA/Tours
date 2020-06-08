@@ -57,4 +57,9 @@ public class TourResultsDefinitions extends BaseUtil {
 		System.out.println("---------- URL: " + driver.getCurrentUrl());
 		new TourDetailsPage(driver).verifyTourDetails(randomTourToVerify);
 	}
+	
+	@And("^Get all available tours from API brand (.+) and region (.+)$")
+	public void get_all_available_tours_from_api(Brand brand, Region region) {
+		tour = TtcUtil.getAllCheapestToursFromResponse(brand, region);
+	}
 }
