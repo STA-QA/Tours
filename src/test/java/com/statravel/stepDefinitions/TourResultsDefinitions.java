@@ -60,6 +60,13 @@ public class TourResultsDefinitions extends BaseUtil {
 	
 	@And("^Get all available tours from API brand (.+) and region (.+)$")
 	public void get_all_available_tours_from_api(Brand brand, Region region) {
-		tour = TtcUtil.getAllCheapestToursFromResponse(brand, region);
+		TourService service = new TourService(brand, region);
+		service.getAllCheapestToursFromResponse();
+	}
+	
+	@And("^Get all departures from API brand (.+) and region (.+)$")
+	public void get_all_departures_from_api(Brand brand, Region region) {
+		TourService service = new TourService(brand, region);
+		service.getAllDeparturesFromResponse();
 	}
 }

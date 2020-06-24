@@ -1,5 +1,8 @@
 package com.statravel.ttcApi.util;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +64,7 @@ public class TtcUtil {
 		return tourResponse;
 	}
 
-	private static ArrayList<TourDetailsResponse> getTour(Brand brand, Region region) {
+	public static ArrayList<TourDetailsResponse> getTour(Brand brand, Region region) {
 		Type collectionType = new TypeToken<ArrayList<TourDetailsResponse>>() {
 		}.getType();
 		ArrayList<TourDetailsResponse> tourResponse = new Gson().fromJson(callTtc(String.format(GET_TOURS, brand, region)), collectionType);
@@ -77,13 +80,4 @@ public class TtcUtil {
 		return tourResponse.get(new Random().nextInt(tourResponse.size()));
 	}
 	
-	public static TourDetailsResponse getAllCheapestToursFromResponse(Brand brand, Region region) {
-		ArrayList<TourDetailsResponse> tourResponse = getTour(brand, region);
-		for(TourDetailsResponse allRs : tourResponse) {
-			TourService service = new TourService(allRs);
-			List<CheapestTour> listTour = service.getCheapestToursFromJsonRS();
-		}
-		return tourResponse.get(new Random().nextInt(tourResponse.size()));
-	}
-
 }

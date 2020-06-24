@@ -1,6 +1,6 @@
-Feature: Get all
+Feature: Get all available tours
 
-Scenario Outline: User searches for
+Scenario Outline: Get all available tours
 And Get all available tours from API brand <Brand> and region <Region>
 
 Examples:
