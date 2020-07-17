@@ -108,7 +108,7 @@ public class TourDetailsPage extends BaseUtil {
 	}
 
 	public void verifyTourDetails(CheapestTour expTour) {
-		btnAcceptCookies.click();
+		//btnAcceptCookies.click();
 		SoftAssert softAssertion = new SoftAssert();
 		softAssertion.assertEquals(labelTitle.getText().replaceAll(" +", " ").replaceAll("&", "and"), expTour.getName(), "Name failed");
 		List<String> str = listHighlights.stream().map(t -> t.getText().replaceAll("• ", "")).collect(Collectors.toList());

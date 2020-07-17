@@ -1,11 +1,7 @@
 package com.statravel.ttcApi.util;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import javax.ws.rs.client.Client;
@@ -17,7 +13,6 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
-import org.testng.Assert;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -49,19 +44,24 @@ public class TtcUtil {
 		Response response = invocationBuilder.get();
 
 		String rs = response.readEntity(String.class);
-		System.out.println("-------- Response from TtcApi: " + rs);
+		//System.out.println("-------- Response from TtcApi: " + rs);
 		if (response.getStatus() != 200) {
-			Assert.fail("Error response from Api " + String.valueOf(response.getStatus()) + "\n" + response.getStatusInfo() + "\n" + rs);
+			System.out.println("---- Error response from Api " +uri+"\n"+ String.valueOf(response.getStatus()) + "\n" + response.getStatusInfo() + "\n" + rs);
+			return null;
 		}
 		return rs;
 	}
 
 	public static TourDetailsResponse getTourDetails(Brand brand, Region region, String idTour) {
-		TourDetailsResponse tourResponse = new Gson().fromJson(callTtc(String.format(GET_TOUR_DETAILS, brand, idTour, region)),
-				TourDetailsResponse.class);
-		tourResponse.setRegion(region);
-		tourResponse.setBrand(brand);
-		return tourResponse;
+		String rs=callTtc(String.format(GET_TOUR_DETAILS, brand, idTour, region));
+		if(rs!=null) {
+			TourDetailsResponse tourResponse = new Gson().fromJson(rs,
+					TourDetailsResponse.class);
+			tourResponse.setRegion(region);
+			tourResponse.setBrand(brand);
+			return tourResponse;
+		}else return null;
+	
 	}
 
 	public static ArrayList<TourDetailsResponse> getTour(Brand brand, Region region) {

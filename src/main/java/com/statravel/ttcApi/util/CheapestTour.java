@@ -2,6 +2,7 @@ package com.statravel.ttcApi.util;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,6 +15,12 @@ import com.statravel.ttcApi.util.TtcUtil.Brand;
 import com.statravel.ttcApi.util.TtcUtil.Region;
 
 public class CheapestTour {
+
+	private String availability;
+	
+	private boolean isBookableOnline;
+
+	private int id;
 
 	private Brand brand;
 
@@ -29,12 +36,40 @@ public class CheapestTour {
 
 	private float fullPrice;
 
+	public CheapestTour() {
+		super();
+	}
+
 	public CheapestTour(Brand brand, Region region, Content content, Departure departure) {
 		super();
 		this.brand = brand;
 		this.region = region;
 		this.content = content;
 		this.departure = departure;
+	}
+
+	public String getAvailability() {
+		return availability;
+	}
+
+	public void setAvailability(String availability) {
+		this.availability = availability;
+	}
+
+	public boolean isBookableOnline() {
+		return isBookableOnline;
+	}
+
+	public void setBookableOnline(boolean isBookableOnline) {
+		this.isBookableOnline = isBookableOnline;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -93,7 +128,7 @@ public class CheapestTour {
 		int count = StringUtils.countMatches(this.getContent().getName(), "(");
 		if (count > 1) {
 			int i = this.getContent().getName().lastIndexOf("(");
-			return this.getContent().getName().substring(0, i).replaceAll(" +", " ").replaceAll("&", "and");
+			return this.getContent().getName().substring(0, i).replaceAll(" +", " ").replaceAll("&", "and").trim();
 		} else {
 			return this.getContent().getName().replaceAll(" +", " ").replaceAll("&", "and");
 		}
@@ -101,12 +136,12 @@ public class CheapestTour {
 
 	public int getDuration() {
 		String startDate = this.getDeparture().getOperatingStartDate();
-		String endDate = this.getDeparture().getSellingRegions().stream().filter(s -> s.getSellingRegion().equals(region.toString()))
-				.findFirst().get().getEndDate();
+		String endDate = this.getDeparture().getSellingRegions().stream()
+				.filter(s -> s.getSellingRegion().equals(region.toString())).findFirst().get().getEndDate();
 		Period period = Period.between(LocalDate.parse(startDate), LocalDate.parse(endDate));
 		return period.getDays() + 1;
 	}
-	
+
 	public LocalDate getStartDate() {
 		return LocalDate.parse(this.getDeparture().getOperatingStartDate());
 	}
@@ -120,16 +155,19 @@ public class CheapestTour {
 	}
 
 	public List<String> getHightlights() {
-		return this.getContent().getHighlights().stream().flatMap(h -> h.getItems().stream()).collect(Collectors.toList());
+		return this.getContent().getHighlights().stream().flatMap(h -> h.getItems().stream())
+				.collect(Collectors.toList());
 	}
 
 	public Map<String, List<String>> getWhatsIncluded() {
-		return this.getContent().getWhatsIncluded().stream().collect(Collectors.toMap(t -> t.getTitle(), t -> t.getItems()));
+		return this.getContent().getWhatsIncluded().stream()
+				.collect(Collectors.toMap(t -> t.getTitle(), t -> t.getItems()));
 	}
 
 	public List<ItineraryDay> getItineraryDays() {
 		List<ItineraryDay> itineraryDay = this.getContent().getItinerary().stream()
-				.map(it -> new ItineraryDay(it.getTitle(), it.getText().get(0), it.getMeals())).collect(Collectors.toList());
+				.map(it -> new ItineraryDay(it.getTitle(), it.getText().get(0), it.getMeals()))
+				.collect(Collectors.toList());
 		return itineraryDay;
 	}
 
@@ -139,7 +177,18 @@ public class CheapestTour {
 				.collect(Collectors.toList());
 	}
 
+	public String getVisitedPlacesToString() {
+		StringBuilder b = new StringBuilder();
+		getVisitedPlaces().stream().forEach(l -> b.append(l).append(";"));
+		return b.toString();
+
+	}
+
 	public int getDiscount() {
 		return Math.round((fullPrice - discountedPrice) / fullPrice * 100);
+	}
+
+	public LocalDate getFormattedStartDate() {
+		return LocalDate.parse(this.getDeparture().getOperatingStartDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	}
 }
