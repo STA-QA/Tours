@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="ToursApiTest" verbose="2" parallel="false">
+	
+	<test name="GetAllCheapestDeparturesContiki">
+		<classes>
+			<class name="com.statravel.base.ToursApiTest">
+				<methods>
+					<include name="getAllCheapestDeparturesContiki" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+	<!-- <test name="GetAllDeparturesContiki">
+		<classes>
+			<class name="com.statravel.base.ToursApiTest">
+				<methods>
+					<include name="getAllDeparturesContiki" />
+				</methods>
+			</class>
+		</classes>
+	</test> -->
+	<!-- <test name="GetAllDeparturesGA">
+		<classes>
+			<class name="com.statravel.base.ToursApiTest">
+				<methods>
+					<include name="getAllDeparturesGA" />
+				</methods>
+			</class>
+		</classes>
+	</test> -->
+</suite>
