@@ -27,7 +27,7 @@ import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 
 import com.statravel.base.BaseUtil;
-import com.statravel.ttcApi.pojo.Departure;
+import com.statravel.ttcApi.pojo.DepartureTtc;
 import com.statravel.ttcApi.util.CheapestTour;
 
 public class HomePage extends BaseUtil {
@@ -489,7 +489,7 @@ public class HomePage extends BaseUtil {
 		//name, price, date
 		tour.setName(Name.get(index).getText().replaceAll(" +", " ").replaceAll("&", "and"));
 		tour.setDiscountedPrice(Integer.parseInt(Price.get(index).getText().replaceAll("[^0-9]", "")));
-		Departure departure = new Departure();
+		DepartureTtc departure = new DepartureTtc();
 		departure.setOperatingStartDate(StartDate.get(index).getText().replaceAll("[a-zA-Z][ ]*", ""));
 		tour.setDeparture(departure);
 		return tour;

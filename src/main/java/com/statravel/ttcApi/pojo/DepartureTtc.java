@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Departure {
+public class DepartureTtc {
 
     @SerializedName("id")
     @Expose
@@ -25,7 +25,7 @@ public class Departure {
         this.id = id;
     }
 
-    public Departure withId(String id) {
+    public DepartureTtc withId(String id) {
         this.id = id;
         return this;
     }
@@ -38,7 +38,7 @@ public class Departure {
         this.operatingStartDate = operatingStartDate;
     }
 
-    public Departure withOperatingStartDate(String operatingStartDate) {
+    public DepartureTtc withOperatingStartDate(String operatingStartDate) {
         this.operatingStartDate = operatingStartDate;
         return this;
     }
@@ -51,7 +51,7 @@ public class Departure {
         this.sellingRegions = sellingRegions;
     }
 
-    public Departure withSellingRegions(List<SellingRegion> sellingRegions) {
+    public DepartureTtc withSellingRegions(List<SellingRegion> sellingRegions) {
         this.sellingRegions = sellingRegions;
         return this;
     }

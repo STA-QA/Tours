@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
 
 import com.statravel.ttcApi.pojo.Content;
-import com.statravel.ttcApi.pojo.Departure;
+import com.statravel.ttcApi.pojo.DepartureTtc;
 import com.statravel.ttcApi.util.TtcUtil.Brand;
 import com.statravel.ttcApi.util.TtcUtil.Region;
 
@@ -30,7 +30,7 @@ public class CheapestTour {
 
 	private Content content = null;
 
-	private Departure departure = null;
+	private DepartureTtc departure = null;
 
 	private float discountedPrice;
 
@@ -40,7 +40,7 @@ public class CheapestTour {
 		super();
 	}
 
-	public CheapestTour(Brand brand, Region region, Content content, Departure departure) {
+	public CheapestTour(Brand brand, Region region, Content content, DepartureTtc departure) {
 		super();
 		this.brand = brand;
 		this.region = region;
@@ -92,15 +92,15 @@ public class CheapestTour {
 		this.content = content;
 	}
 
-	public Departure getDepartures() {
+	public DepartureTtc getDepartures() {
 		return departure;
 	}
 
-	public Departure getDeparture() {
+	public DepartureTtc getDeparture() {
 		return departure;
 	}
 
-	public void setDeparture(Departure departure) {
+	public void setDeparture(DepartureTtc departure) {
 		this.departure = departure;
 	}
 

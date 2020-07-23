@@ -13,7 +13,7 @@ public class Season {
 	private List<Content> content = null;
 	@SerializedName("departures")
 	@Expose
-	private List<Departure> departures = null;
+	private List<DepartureTtc> departures = null;
 	@SerializedName("from")
 	@Expose
 	private String from;
@@ -37,15 +37,15 @@ public class Season {
 		return this;
 	}
 
-	public List<Departure> getDepartures() {
+	public List<DepartureTtc> getDepartures() {
 		return departures;
 	}
 
-	public void setDepartures(List<Departure> departures) {
+	public void setDepartures(List<DepartureTtc> departures) {
 		this.departures = departures;
 	}
 
-	public Season withDepartures(List<Departure> departures) {
+	public Season withDepartures(List<DepartureTtc> departures) {
 		this.departures = departures;
 		return this;
 	}

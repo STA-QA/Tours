@@ -168,10 +168,4 @@ public class TourResultsDefinitions extends BaseUtil {
 		service.getAllCheapestDeparturesFromResponse();
 	}
 
-	@And("^Get GA all departures from API brand (.+) and region (.+)$")
-	public void get_ga_all_departures_from_api(Brand brand, Region region) {
-		GAService gaService = new GAService();
-		gaService.getAllDeparturesFromResponse();
-		//GaUtil.getTour();
-	}
 }

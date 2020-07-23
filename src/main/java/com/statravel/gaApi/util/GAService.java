@@ -19,6 +19,7 @@ import com.statravel.gaApi.pojo.departureDetails.DepartureDetailsResponse;
 import com.statravel.gaApi.pojo.departure.DeparturesResponse;
 import com.statravel.gaApi.pojo.dossier.Result;
 import com.statravel.gaApi.pojo.dossier.StructuredItinerary;
+import com.statravel.gaApi.pojo.dossier.TourDossier;
 import com.statravel.gaApi.pojo.dossier.TourDossierResponse;
 import com.statravel.gaApi.pojo.dossier.ValidDuringRange;
 import com.statravel.gaApi.pojo.itineraries.ItinerariesResponse;
@@ -29,77 +30,85 @@ import com.statravel.ttcApi.util.CheapestTour;
 
 public class GAService {
 
-	public void getAllDeparturesFromRespons() {
-		List<Departure> departures = GaUtil.getDeparturesOfTheTour("24781");
-		File csvOutputFile = new File("tourDeparturesGA.csv");
+	public static TourDossier getTourByProductLine(String productLine) {
+		return GaUtil.getTourByProductLine(productLine);
+	}
+
+	public static void getAllDeparturesFromRespons(String tourId) {
+		TourDossierResponse r = GaUtil.getTourDossierByTourId(tourId);
+		List<Departure> departures = GaUtil.getDeparturesOfTheTour(tourId);
+		File csvOutputFile = new File("tourDeparturesGA_" + tourId+ "_"+LocalDate.now().toString()+".csv");
 		List<String> listTour = new ArrayList<String>();
 		listTour.add(
-				"TourId,TourContentName,TrackingId,OperatingStartDate,Availability,OnlineBookable,DiscountedPrices");
+				"CheapestDeparture,TourDossiersId,ProductLine,Name,DepartureId,StartDate,FinishDate,Availability,Availability.Total,Price in GBP,IsCheapest,VisitedPlaces,"
+						+ "AllPrices,Price in AUD,Price in USD,Price in NZD,Price in CHF,Price in EUR,ItinerariesUrl");
+		listTour.addAll(getDepartureRecords(r, departures));
 		try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
-			for (Departure tour : departures) {
-				listTour.add(tour.getId() + "," // + escapeSpecialCharacters(tour.getContent().getName()) + ","
-						+ tour.getStartDate() + "," + tour.getFinishDate() + "," + tour.getAvailability().getStatus()
-						+ "," + tour.getGBPPrice() + "," + tour.getHref());
-			}
 			listTour.stream().forEach(pw::println);
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public void getAllDeparturesFromResponse() {
-		Map<TourDossierResponse, List<Departure>> departures = GaUtil.getToursWithDepartures();
-		File csvOutputFile = new File("allToursDeparturesGA.csv");
+	public static List<String> getDepartureRecords(TourDossierResponse r, List<Departure> departures) {
+		Optional<Departure> depMin = departures.stream()
+				.filter(d -> "AVAILABLE".equals(d.getAvailability().getStatus()))
+				.sorted(Comparator.comparing(Departure::getStartLocalDate))
+				.min(Comparator.comparing(Departure::getGBPPrice));//
+		String visitedPlaces = null;
+		List<String> listTour = new ArrayList<String>();
+		String itinerariesUrl = "";
+		boolean isCheapest = false;
+		int rooms = 0;
+		int prices = 0;
+		for (Departure tour : departures) {
+			if (depMin.isPresent() && tour.equals(depMin.get())) {
+				isCheapest = true;
+			}
+			if ("AVAILABLE".equals(tour.getAvailability().getStatus())) {
+				DepartureDetailsResponse details = GaUtil.getDepartureDetails(tour.getHref());
+				if (details != null) {
+					// TODO several rooms tourId=21593 , departureId=939544
+					rooms = details.getRooms().size();
+					prices = details.getRooms().get(0).getPriceBands().size();
+				}
+			}
+			String tmp = getItinerariesUrl(r, tour);
+			if (tmp != null) {
+				// if (itinerariesUrl != null && !itinerariesUrl.equals(tmp)) {
+				if (!tmp.equals(itinerariesUrl)) {
+					itinerariesUrl = tmp;
+					visitedPlaces = escapeSpecialCharacters(
+							GaUtil.getItineraries(itinerariesUrl).getVisitedPlacesToString());
+				}
+			} else {
+				visitedPlaces = null;
+				itinerariesUrl = null;
+			}
+			listTour.add((isCheapest ? ("CheapestAvailable departureId=" + tour.getId() + " for tourId=" + r.getId())
+					: (depMin.isPresent() ? "" : "no available tours for tourId=" + r.getId())) + "," + r.getId() + ","
+					+ r.getProductLine() + "," + escapeSpecialCharacters(r.getName()) + "," + tour.getId() + ","
+					+ tour.getStartDate() + "," + tour.getFinishDate() + "," + tour.getAvailability().getStatus() + ","
+					+ tour.getAvailability().getTotal() + "," + tour.getGBPPrice() + "," + isCheapest + ","
+					+ visitedPlaces + "," + tour.getPrices() + "," + tour.getPrice(CurrencyCode.AUD) + ","
+					+ tour.getPrice(CurrencyCode.USD) + "," + tour.getPrice(CurrencyCode.NZD) + ","
+					+ tour.getPrice(CurrencyCode.CHF) + "," + tour.getPrice(CurrencyCode.EUR) + "," + itinerariesUrl
+					+ "," + rooms + "," + prices);
+			isCheapest = false;
+		}
+		return listTour;
+	}
+
+	public static void getAllDeparturesFromResponse(String pageStart, String pageEnd) {
+		Map<TourDossierResponse, List<Departure>> departures = GaUtil.getToursWithDepartures(Integer.valueOf(pageStart), Integer.valueOf(pageEnd));
+		File csvOutputFile = new File("allToursDeparturesGA_Pages"+pageStart+"-"+pageEnd +"_"+LocalDate.now().toString()+".csv");
 		List<String> listTour = new ArrayList<String>();
 		listTour.add(
 				"CheapestDeparture,TourDossiersId,ProductLine,Name,DepartureId,StartDate,FinishDate,Availability,Availability.Total,Price in GBP,IsCheapest,VisitedPlaces,"
 						+ "AllPrices,Price in AUD,Price in USD,Price in NZD,Price in CHF,Price in EUR,ItinerariesUrl");
 		try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
 			for (TourDossierResponse r : departures.keySet()) {
-				Optional<Departure> depMin = departures.get(r).stream()
-						.filter(d -> "AVAILABLE".equals(d.getAvailability().getStatus()))
-						.sorted(Comparator.comparing(Departure::getStartLocalDate))
-						.min(Comparator.comparing(Departure::getGBPPrice));//
-				String visitedPlaces = null;
-				String itinerariesUrl = "";
-				boolean isCheapest = false;
-				int rooms=0;
-				int prices=0;
-				for (Departure tour : departures.get(r)) {
-					if (depMin.isPresent() && tour.equals(depMin.get())) {
-						isCheapest = true;
-					}
-					if ("AVAILABLE".equals(tour.getAvailability().getStatus())) {
-					DepartureDetailsResponse details = GaUtil.getDepartureDetails(tour.getHref());
-					if (details != null)	{
-						rooms=details.getRooms().size();
-						prices=details.getRooms().get(0).getPriceBands().size();
-					}}
-					String tmp = getItinerariesUrl(r, tour);
-					if (tmp != null) {
-						// if (itinerariesUrl != null && !itinerariesUrl.equals(tmp)) {
-						if (!tmp.equals(itinerariesUrl)) {
-							itinerariesUrl = tmp;
-							visitedPlaces = escapeSpecialCharacters(
-									GaUtil.getItineraries(itinerariesUrl).getVisitedPlacesToString());
-						}
-					} else {
-						visitedPlaces = null;
-						itinerariesUrl = null;
-					}
-					listTour.add(
-							(isCheapest ? ("CheapestAvailable departureId=" + tour.getId() + " for tourId=" + r.getId())
-									: (depMin.isPresent() ? "" : "no available tours for tourId=" + r.getId())) + ","
-									+ r.getId() + "," + r.getProductLine() + "," + escapeSpecialCharacters(r.getName())
-									+ "," + tour.getId() + "," + tour.getStartDate() + "," + tour.getFinishDate() + ","
-									+ tour.getAvailability().getStatus() + "," + tour.getAvailability().getTotal() + ","
-									+ tour.getGBPPrice() + "," + isCheapest + "," + visitedPlaces + ","
-									+ tour.getPrices() + "," + tour.getPrice(CurrencyCode.AUD) + ","
-									+ tour.getPrice(CurrencyCode.USD) + "," + tour.getPrice(CurrencyCode.NZD) + ","
-									+ tour.getPrice(CurrencyCode.CHF) + "," + tour.getPrice(CurrencyCode.EUR) + ","
-									+ itinerariesUrl +","+ rooms+","+prices);
-					isCheapest = false;
-				}
+				listTour.addAll(getDepartureRecords(r, departures.get(r)));
 			}
 			listTour.stream().forEach(pw::println);
 			System.out.println("--------- Please find the data in allToursDeparturesGA.csv --------");

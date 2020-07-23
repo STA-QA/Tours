@@ -41,7 +41,7 @@ import com.sun.crypto.provider.DESedeParameters;
 
 public class GaUtil {
 
-	private static final String GET_TOUR_DETAILS = "https://rest.gadventures.com/tour_dossiers/?product_line=%s";
+	private static final String GET_TOUR_BY_PRODUCTLINE = "https://rest.gadventures.com/tour_dossiers/?product_line=%s";
 	private static final String GET_DEPARTURES = "https://rest.gadventures.com/tour_dossiers/%s/departures%s";
 	private static final String GET_TOURS = "https://rest.gadventures.com/tour_dossiers/%s";
 
@@ -56,30 +56,29 @@ public class GaUtil {
 		Response response = invocationBuilder.get();
 
 		String rs = response.readEntity(String.class);
-		//System.out.println("-------- RQ GAApi: " + uri);
-		//System.out.println("-------- Response from GAApi: " + rs);
+		// System.out.println("-------- RQ GAApi: " + uri);
+		// System.out.println("-------- Response from GAApi: " + rs);
 		if (response.getStatus() != 200) {
-			//Assert.fail
+			// Assert.fail
 			System.out.println("Error response from Api " + String.valueOf(response.getStatus()) + "\n"
 					+ response.getStatusInfo() + "\n" + rs);
-			return  null;
+			return null;
 		}
 		return rs;
 	}
 
 	public static List<Departure> getDeparturesOfTheTour(String tourId) {
-		int page = 1;
-		DeparturesResponse departures = new Gson().fromJson(callGaApi(String.format(GET_DEPARTURES, tourId, "")),
-				DeparturesResponse.class);
-		List<Departure> allDeparture = departures.getResults();
-		page++;
-		while (departures.getLinks().stream().anyMatch(l -> "next".equals(l.getRel()))) {
-			// ?page=2
-			departures = new Gson().fromJson(callGaApi(String.format(GET_DEPARTURES,tourId, "?page=" + page)),
+
+		DeparturesResponse departures = null;
+		List<Departure> allDeparture = new ArrayList<Departure>();
+		do {
+			int page = 1;
+			departures = new Gson().fromJson(callGaApi(String.format(GET_DEPARTURES, tourId, "?page=" + page)),
 					DeparturesResponse.class);
 			allDeparture.addAll(departures.getResults());
+			System.out.println("---- Page Tours departures " + page);
 			page++;
-		}
+		} while (departures.getLinks().stream().anyMatch(l -> "next".equals(l.getRel())));
 
 		List<Departure> actualDeparture = new ArrayList<Departure>();
 		for (Departure dep : allDeparture)
@@ -93,46 +92,24 @@ public class GaUtil {
 		return actualDeparture;
 	}
 
-	public static List<Departure> getDepartures(Result result) {
-		DeparturesResponse departures = new Gson()
-				.fromJson(callGaApi(String.format(GET_DEPARTURES, result.getId(), "")), DeparturesResponse.class);
-		List<Departure> allDeparture = departures.getResults();
-		int page = 2;
-		while (departures.getLinks().stream().anyMatch(l -> "next".equals(l.getRel()))) {
-			departures = new Gson().fromJson(callGaApi(String.format(GET_DEPARTURES, result.getId(), "?page=" + page)),
-					DeparturesResponse.class);
-			allDeparture.addAll(departures.getResults());
-			page++;
-		}
+	public static Map<TourDossierResponse, List<Departure>> getToursWithDepartures(int pageStart, int pageEnd) {
+		System.out.println("---- GA Tours Page " + pageStart);
+		TourDossier tourResponse = null;
+		List<Result> results = new ArrayList<Result>();
 
-		// start date>today
-		List<Departure> actualDeparture = new ArrayList<Departure>();
-		for (Departure dep : allDeparture)
-			if (LocalDate.parse(dep.getStartDate()).isAfter(LocalDate.now())) {
-				actualDeparture.add(dep);
-			}
-		return actualDeparture;
-	}
-
-	public static Map<TourDossierResponse, List<Departure>> getToursWithDepartures() {
-		int page = 1;
-		System.out.println("---- GA Tours Page " + page);
-		TourDossier tourResponse = new Gson().fromJson(callGaApi(String.format(GET_TOURS, "")), TourDossier.class);
-		List<Result> results = tourResponse.getResults();
-		 page++;
-		while (tourResponse.getLinks().stream().anyMatch(l -> "next".equals(l.getRel())) && page <2) {
+		do {
 			// ?page=2
-			tourResponse = new Gson().fromJson(callGaApi(String.format(GET_TOURS, "?page=" + page)), TourDossier.class);
+			tourResponse = new Gson().fromJson(callGaApi(String.format(GET_TOURS, "?page=" + pageStart)),
+					TourDossier.class);
 			results.addAll(tourResponse.getResults());
-			System.out.println("---- Page Tours " + page);
-			page++;
-		}
+			System.out.println("---- Page Tours tour_dossiers " + pageStart);
+			pageStart++;
+		} while (tourResponse.getLinks().stream().anyMatch(l -> "next".equals(l.getRel())) && pageStart < pageEnd + 1);
 
 		Map<TourDossierResponse, List<Departure>> actualDeparture = new HashMap<TourDossierResponse, List<Departure>>();
 		for (Result res : results) {
-			TourDossierResponse td = new Gson().fromJson(callGaApi(String.format(GET_TOURS, res.getId())),
-					TourDossierResponse.class);
-			actualDeparture.put(td, getDepartures(res)); 
+			TourDossierResponse td = getTourDossierByTourId(res.getId());
+			actualDeparture.put(td, getDeparturesOfTheTour(res.getId()));
 		}
 		return actualDeparture;
 	}
@@ -140,10 +117,16 @@ public class GaUtil {
 	public static ItinerariesResponse getItineraries(String itinerariesUrl) {
 		return new Gson().fromJson(GaUtil.callGaApi(itinerariesUrl), ItinerariesResponse.class);
 	}
-	
 
 	public static DepartureDetailsResponse getDepartureDetails(String departureUrl) {
 		return new Gson().fromJson(GaUtil.callGaApi(departureUrl), DepartureDetailsResponse.class);
 	}
 
+	public static TourDossierResponse getTourDossierByTourId(String tourId) {
+		return new Gson().fromJson(callGaApi(String.format(GET_TOURS, tourId)), TourDossierResponse.class);
+	}
+
+	public static TourDossier getTourByProductLine(String productLine) {
+		return new Gson().fromJson(callGaApi(String.format(GET_TOUR_BY_PRODUCTLINE, productLine)), TourDossier.class);
+	}
 }
