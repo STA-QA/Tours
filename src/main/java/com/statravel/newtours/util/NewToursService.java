@@ -42,16 +42,16 @@ import com.statravel.ttcApi.util.TtcUtil.Brand;
 import com.statravel.ttcApi.util.TtcUtil.Region;
 
 public class NewToursService {
-	
+
 	public static void compareGATour(String tourId) {
-		
+
 		List<Departure> departures = GaUtil.getDeparturesOfTheTour(tourId);
 		List<NewTour> tours = TourSummaryUtil.getNewTours();
 
 		SoftAssert softAssertion = new SoftAssert();
 
 		for (Departure deparure : departures) {
-			System.out.println("--------- Verification of departures "+ deparure.getId());
+			System.out.println("--------- Verification of departures " + deparure.getId());
 			int count = (int) tours.stream().filter(t -> t.getDepartureId().equals(deparure.getId())).count();
 			if ("AVAILABLE".equals(deparure.getAvailability().getStatus())) {
 				softAssertion.assertEquals(count, 1, "DepartureId not found " + deparure.getId());
@@ -60,104 +60,79 @@ public class NewToursService {
 			}
 			if (count > 0) {// ==1
 				DepartureDetailsResponse details = GaUtil.getDepartureDetails(deparure.getHref());
-				Room room =details.getRooms().get(0);
-				PriceBand priceBand= room.getPriceBands().get(0);
-				//TODO roomsCount>1?
-				System.out.println("------ RoomsCount="+ details.getRooms().size());
-				System.out.println("------ Room0_PriceBands="+ room.getPriceBands().size());
+				Room room = details.getRooms().get(0);
+				PriceBand priceBand = room.getPriceBands().get(0);
+				// TODO roomsCount>1?
+				System.out.println("------ RoomsCount=" + details.getRooms().size());
+				System.out.println("------ Room0_PriceBands=" + room.getPriceBands().size());
 				NewTour tour = tours.stream().filter(t -> t.getDepartureId().equals(deparure.getId())).findFirst()
 						.get();
-				softAssertion.assertEquals(tour.getSalePrice(), (int) deparure.getPrice(CurrencyCode.GBP), "Price verification failed ");
+				softAssertion.assertEquals(tour.getSalePrice(), (int) deparure.getPrice(CurrencyCode.GBP),
+						"Price verification failed ");
 				softAssertion.assertEquals(LocalDate.parse(tour.getStartDate(), DateTimeFormatter.ISO_DATE_TIME),
-						deparure.getStartLocalDate(), "StartDate  verification failed for DepartureId="+ deparure.getId());
+						deparure.getStartLocalDate(),
+						"StartDate  verification failed for DepartureId=" + deparure.getId());
 				// "startDate": "2020-10-11T00:00:00.000Z",
-				if(deparure.getAvailability().getTotal()<7) {
+				if (deparure.getAvailability().getTotal() < 7) {
 					softAssertion.assertEquals(tour.getAvailability().toLowerCase(), "SellingFast",
-							"Availability verification failed for DepartureId="+ deparure.getId());
-				}else {
-				softAssertion.assertEquals(tour.getAvailability().toLowerCase(), deparure.getAvailability().getStatus().toLowerCase(),
-						"Availability verification failed for DepartureId="+ deparure.getId());
+							"Availability verification failed for DepartureId=" + deparure.getId());
+				} else {
+					softAssertion.assertEquals(tour.getAvailability().toLowerCase(),
+							deparure.getAvailability().getStatus().toLowerCase(),
+							"Availability verification failed for DepartureId=" + deparure.getId());
 				}
-				//softAssertion.assertEquals(tour.getRoomType(), room.getPriceBands().get(0).getPrice(CurrencyCode.GBP), "Room ");
-				softAssertion.assertEquals(tour.getRoomType(), room.getName(), "RoomName verification failed for DepartureId="+ deparure.getId());
-				softAssertion.assertEquals(tour.getRoomCode(), room.getCode(), "RoomCode verification failed for DepartureId="+ deparure.getId());
-				softAssertion.assertEquals(tour.getAgeGrade(), priceBand.getName(), "AgeGrade verification failed for DepartureId="+ deparure.getId());
-				softAssertion.assertEquals(tour.getMinAge(),priceBand.getMinAge(), "MinAge verification failed for DepartureId="+ deparure.getId());
-				softAssertion.assertEquals(tour.getMaxAge(), priceBand.getMaxAge(), "MaxAge verification failed for DepartureId="+ deparure.getId());
+				// softAssertion.assertEquals(tour.getRoomType(),
+				// room.getPriceBands().get(0).getPrice(CurrencyCode.GBP), "Room ");
+				softAssertion.assertEquals(tour.getRoomType(), room.getName(),
+						"RoomName verification failed for DepartureId=" + deparure.getId());
+				softAssertion.assertEquals(tour.getRoomCode(), room.getCode(),
+						"RoomCode verification failed for DepartureId=" + deparure.getId());
+				softAssertion.assertEquals(tour.getAgeGrade(), priceBand.getName(),
+						"AgeGrade verification failed for DepartureId=" + deparure.getId());
+				softAssertion.assertEquals(tour.getMinAge(), priceBand.getMinAge(),
+						"MinAge verification failed for DepartureId=" + deparure.getId());
+				softAssertion.assertEquals(tour.getMaxAge(), priceBand.getMaxAge(),
+						"MaxAge verification failed for DepartureId=" + deparure.getId());
 			}
 		}
-		//TODO AssertUtil, try/catch testng assert
+		// TODO AssertUtil, try/catch testng assert
 		softAssertion.assertAll();
 	}
-	
-public static void compareContikiTour(String tourId) {
-	
+
+	public static void compareContikiTour(String tourId) {
+
 		TourService service = new TourService(Brand.contiki, Region.uk);
 		service.getTourDetails(tourId);
-	
+
 		List<Departure> departures = GaUtil.getDeparturesOfTheTour(tourId);
 		List<NewTour> tours = TourSummaryUtil.getNewTours();
 
 		SoftAssert softAssertion = new SoftAssert();
 
-		for (TourOption tourOpt : 	service.getTour().getTourOptions()) {
+		for (TourOption tourOpt : service.getTour().getTourOptions()) {
 			for (Season season : tourOpt.getSeasons()) {
-				for (DepartureTtc departure : season.getDepartures()) {
+				for (DepartureTtc deparure : season.getDepartures()) {
 					// TODO seasons - trackingId
-					departure.getSellingRegions().stream().forEach(s -> tours.add(service.getTour().getId() + ","
-							+ escapeSpecialCharacters(season.getContent().get(0).getName()) + ","
-							+ season.getContent().get(0).getTrackingId() + "," + departure.getOperatingStartDate() + ","
-							+ s.getAvailability() + "," + s.isOnlineBookable() + ","
+				/*	deparure.getSellingRegions().stream().forEach(s -> tours.add(service.getTour().getId() + ","
+							+ season.getContent().get(0).getName() + "," + season.getContent().get(0).getTrackingId()
+							+ "," + deparure.getOperatingStartDate() + "," + s.getAvailability() + ","
+							+ s.isOnlineBookable() + ","
 							+ s.getPrices().stream().map(pr -> String.valueOf(pr.getAdultPrice().getDiscounted()))
 									.collect(Collectors.joining(";"))
 							+ "," + s.getSellingRegion() + ","
-							+ s.getPrices().stream().map(pr -> pr.getRoomType()).collect(Collectors.joining(";"))));
+							+ s.getPrices().stream().map(pr -> pr.getRoomType()).collect(Collectors.joining(";"))));*/
+
+					System.out.println("--------- Verification of departures " + deparure.getId());
 				}
 			}
 		}
-					
-					System.out.println("--------- Verification of departures "+ deparure.getId());
-			int count = (int) tours.stream().filter(t -> t.getDepartureId().equals(deparure.getId())).count();
-			if ("AVAILABLE".equals(deparure.getAvailability().getStatus())) {
-				softAssertion.assertEquals(count, 1, "DepartureId not found " + deparure.getId());
-			} else {
-				softAssertion.assertEquals(count, 0, "DepartureId  found " + deparure.getId());
-			}
-			if (count > 0) {// ==1
-				DepartureDetailsResponse details = GaUtil.getDepartureDetails(deparure.getHref());
-				Room room =details.getRooms().get(0);
-				PriceBand priceBand= room.getPriceBands().get(0);
-				//TODO roomsCount>1?
-				System.out.println("------ RoomsCount="+ details.getRooms().size());
-				System.out.println("------ Room0_PriceBands="+ room.getPriceBands().size());
-				NewTour tour = tours.stream().filter(t -> t.getDepartureId().equals(deparure.getId())).findFirst()
-						.get();
-				softAssertion.assertEquals(tour.getSalePrice(), (int) deparure.getPrice(CurrencyCode.GBP), "Price verification failed ");
-				softAssertion.assertEquals(LocalDate.parse(tour.getStartDate(), DateTimeFormatter.ISO_DATE_TIME),
-						deparure.getStartLocalDate(), "StartDate  verification failed for DepartureId="+ deparure.getId());
-				// "startDate": "2020-10-11T00:00:00.000Z",
-				if(deparure.getAvailability().getTotal()<7) {
-					softAssertion.assertEquals(tour.getAvailability().toLowerCase(), "SellingFast",
-							"Availability verification failed for DepartureId="+ deparure.getId());
-				}else {
-				softAssertion.assertEquals(tour.getAvailability().toLowerCase(), deparure.getAvailability().getStatus().toLowerCase(),
-						"Availability verification failed for DepartureId="+ deparure.getId());
-				}
-				//softAssertion.assertEquals(tour.getRoomType(), room.getPriceBands().get(0).getPrice(CurrencyCode.GBP), "Room ");
-				softAssertion.assertEquals(tour.getRoomType(), room.getName(), "RoomName verification failed for DepartureId="+ deparure.getId());
-				softAssertion.assertEquals(tour.getRoomCode(), room.getCode(), "RoomCode verification failed for DepartureId="+ deparure.getId());
-				softAssertion.assertEquals(tour.getAgeGrade(), priceBand.getName(), "AgeGrade verification failed for DepartureId="+ deparure.getId());
-				softAssertion.assertEquals(tour.getMinAge(),priceBand.getMinAge(), "MinAge verification failed for DepartureId="+ deparure.getId());
-				softAssertion.assertEquals(tour.getMaxAge(), priceBand.getMaxAge(), "MaxAge verification failed for DepartureId="+ deparure.getId());
-			}
-		}
-		//TODO AssertUtil, try/catch testng assert
+		// TODO AssertUtil, try/catch testng assert
 		softAssertion.assertAll();
 	}
 
 	public static void main(String[] args) {
-		 NewToursService.compareGATour("24781");
-		 
+		NewToursService.compareGATour("24781");
+
 	}
 
 }
