@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="ToursApiTest" verbose="2" parallel="false">
+	
+	
+	 <!-- <test name="GetDeparturesGAForTourId">
+		<classes>
+			<class name="com.statravel.base.ToursApiTest">
+				<methods>
+					<parameter name="productLine" value="XVSHSX" />
+					<parameter name="tourId" value="21593" />
+					<include name="getAllDeparturesGAByTourId" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+ -->
+	<!-- 
+	<test name="GetAllCheapestDeparturesContiki">
+		<classes>
+			<class name="com.statravel.base.ToursApiTest">
+					<include name="getAllCheapestDeparturesContiki" />
+				</methods>
+			</class>
+		</classes>
+	</test>-->
+	<test name="GetAllDeparturesContiki">
+		<classes>
+			<class name="com.statravel.base.ToursApiTest">
+				<methods>
+					<include name="getAllDeparturesContiki" />
+				</methods>
+			</class>
+		</classes>
+	</test> 
+	<!-- <test name="GetAllDeparturesGA">
+		<classes>
+			<class name="com.statravel.base.ToursApiTest">
+				<methods>
+					<parameter name="pageStart" value="2" />
+					<parameter name="pageEnd" value="2" />included
+					<include name="getAllDeparturesGA" />
+				</methods>
+			</class>
+		</classes>
+	</test> -->
+</suite>
