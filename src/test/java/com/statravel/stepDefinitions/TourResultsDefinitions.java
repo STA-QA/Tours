@@ -1,26 +1,21 @@
 package com.statravel.stepDefinitions;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 
+import com.statravel.apiImplementation.ttcApi.pojo.TourDetailsResponse;
+import com.statravel.apiImplementation.ttcApi.util.CheapestTour;
+import com.statravel.apiImplementation.ttcApi.util.TourService;
+import com.statravel.apiImplementation.ttcApi.util.TtcUtil;
+import com.statravel.apiImplementation.ttcApi.util.TtcUtil.Brand;
+import com.statravel.apiImplementation.ttcApi.util.TtcUtil.Region;
 import com.statravel.base.BaseUtil;
 import com.statravel.codeImplementation.HomePage;
 import com.statravel.codeImplementation.TourDetailsPage;
-import com.statravel.gaApi.util.GAService;
-import com.statravel.gaApi.util.GaUtil;
-import com.statravel.ttcApi.pojo.TourDetailsResponse;
-import com.statravel.ttcApi.util.CheapestTour;
-import com.statravel.ttcApi.util.TourService;
-import com.statravel.ttcApi.util.TtcUtil;
-import com.statravel.ttcApi.util.TtcUtil.Brand;
-import com.statravel.ttcApi.util.TtcUtil.Region;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -73,13 +68,13 @@ public class TourResultsDefinitions extends BaseUtil {
 		Home.InputAndSearch(name);
 	}
 
-	@And("^Get all available tours from API brand (.+) and region (.+)$")
+	@Deprecated
+	// @And("^Get all available tours from API brand (.+) and region (.+)$")
 	public void get_all_available_tours_from_api(Brand brand, Region region) {
 		List<CheapestTour> toursFromUI = Home.readAllToursFromUI();
-		toursFromUI.stream().forEach(it -> System.out.println(
-				"[TourIdUI] " + it.getName() + ", " + it.getDeparture().getOperatingStartDate() + ", "
-						+ it.getDiscountedPrice()));
-		TourService service = new TourService(brand, region);
+		toursFromUI.stream().forEach(it -> System.out.println("[TourIdUI] " + it.getName() + ", "
+				+ it.getDeparture().getOperatingStartDate() + ", " + it.getDiscountedPrice()));
+		TourService service = new TourService(region);
 		List<CheapestTour> toursFromApi = service.getAllAvailableCheapestToursFromResponse();
 		SoftAssert softAssertion = new SoftAssert();
 
@@ -99,17 +94,17 @@ public class TourResultsDefinitions extends BaseUtil {
 			if (!tUiOpt.isPresent()) {
 				count = (int) toursFromUI.stream().filter(t -> t.getName().equals(tApi.getFormattedName())).count();
 				if (count == 1) {
-					//System.out.println("------Found with formattedName");
+					// System.out.println("------Found with formattedName");
 					tUiOpt = toursFromUI.stream().filter(t -> t.getName().equals(tApi.getFormattedName())).findFirst();
 				} else if (count == 0) {
-					//System.out.println("------Try Found with Name and date");
+					// System.out.println("------Try Found with Name and date");
 					tUiOpt = toursFromUI.stream()
 							.filter(t -> (t.getName().contains(tApi.getName().replaceAll("&", "and")))).findFirst();// contains
 					// && t.getFormattedStartDate().equals(tApi.getStartDate()))
 					count = (int) toursFromUI.stream()
 							.filter(t -> (t.getName().contains(tApi.getName().replaceAll("&", "and")))).count();// contains
 					if (count != 1) {
-						//System.out.println("----- Failed count =" + count);
+						// System.out.println("----- Failed count =" + count);
 					}
 				}
 			}
@@ -154,18 +149,6 @@ public class TourResultsDefinitions extends BaseUtil {
 		 */
 
 		softAssertion.assertAll();
-	}
-
-	@And("^Get all departures from API brand (.+) and region (.+)$")
-	public void get_all_departures_from_api(Brand brand, Region region) {
-		TourService service = new TourService(brand, region);
-		service.getAllDeparturesFromResponse();
-	}
-
-	@And("^Get all cheapest departures from API brand (.+) and region (.+)$")
-	public void get_all_available_departures_from_api(Brand brand, Region region) {
-		TourService service = new TourService(brand, region);
-		service.getAllCheapestDeparturesFromResponse();
 	}
 
 }

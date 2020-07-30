@@ -26,9 +26,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 
+import com.statravel.apiImplementation.ttcApi.pojo.DepartureTtc;
+import com.statravel.apiImplementation.ttcApi.util.CheapestTour;
 import com.statravel.base.BaseUtil;
-import com.statravel.ttcApi.pojo.DepartureTtc;
-import com.statravel.ttcApi.util.CheapestTour;
 
 public class HomePage extends BaseUtil {
 
@@ -117,10 +117,10 @@ public class HomePage extends BaseUtil {
 	@FindBy(how = How.XPATH, using = "//li[contains(@class,'rc-pagination-item rc-pagination-item-')]")
 	public List<WebElement> PaginationList;
 
-	@FindBy(how = How.XPATH, using = "//li[contains(@class,'rc-pagination-next')]")//rc-pagination-item-link
+	@FindBy(how = How.XPATH, using = "//li[contains(@class,'rc-pagination-next')]") // rc-pagination-item-link
 	public WebElement nextpageicon;
 
-	@FindBy(how = How.XPATH, using = "//li[@class='rc-pagination-next rc-pagination-disabled']")//rc-pagination-item-link
+	@FindBy(how = How.XPATH, using = "//li[@class='rc-pagination-next rc-pagination-disabled']") // rc-pagination-item-link
 	public WebElement nextpageiconDisabled;
 
 	@FindBy(how = How.XPATH, using = "//h2[@class='sta-h2 sta-text-2xl']")
@@ -445,8 +445,9 @@ public class HomePage extends BaseUtil {
 				)).findFirst().orElse(-1);
 		if (ind < 0) {
 			// retry search with tourName
-			ind = IntStream.range(0, Name.size()).filter(i -> (Name.get(i).getText().replaceAll("&", "and").contains(expTour.getName())))
-					.findFirst().orElse(-1);
+			ind = IntStream.range(0, Name.size())
+					.filter(i -> (Name.get(i).getText().replaceAll("&", "and").contains(expTour.getName()))).findFirst()
+					.orElse(-1);
 		}
 		return ind;
 	}
@@ -460,33 +461,39 @@ public class HomePage extends BaseUtil {
 		softAssertion.assertEquals(Integer.parseInt(Price.get(index).getText().replaceAll("[^0-9]", "")),
 				Math.round(expTour.getDiscountedPrice()), "Price verification failed");
 		if (expTour.getFullPrice() != expTour.getDiscountedPrice()) {
-			Assert.assertEquals(Price.get(index).findElements(By.xpath(WasPriceRelative)).size(), 1, "WasPrice label is not found");
+			Assert.assertEquals(Price.get(index).findElements(By.xpath(WasPriceRelative)).size(), 1,
+					"WasPrice label is not found");
 			softAssertion.assertEquals(
-					Integer.parseInt(Price.get(index).findElements(By.xpath(WasPriceRelative)).get(0).getText().replaceAll("[^0-9]", "")),
+					Integer.parseInt(Price.get(index).findElements(By.xpath(WasPriceRelative)).get(0).getText()
+							.replaceAll("[^0-9]", "")),
 					Math.round(expTour.getFullPrice()), "WasPrice verification failed");
 			Assert.assertEquals(TourList.get(index).findElements(By.xpath(discountXpathRelative)).size(), 1,
 					"Discount %  label is not found");
 			// Discount % value sometimes failed
-			/*softAssertion.assertEquals(
-					Integer.parseInt(
-							TourList.get(index).findElements(By.xpath(discountXpathRelative)).get(0).getText().replaceAll("[^0-9]", "")),
-					Math.round(expTour.getDiscount()), "Discount % verification failed");*/
+			/*
+			 * softAssertion.assertEquals( Integer.parseInt(
+			 * TourList.get(index).findElements(By.xpath(discountXpathRelative)).get(0).
+			 * getText().replaceAll("[^0-9]", "")), Math.round(expTour.getDiscount()),
+			 * "Discount % verification failed");
+			 */
 		} else {
-			softAssertion.assertEquals(Price.get(index).findElements(By.xpath(WasPriceRelative)).size(), 0, "WasPrice label found");
+			softAssertion.assertEquals(Price.get(index).findElements(By.xpath(WasPriceRelative)).size(), 0,
+					"WasPrice label found");
 			softAssertion.assertEquals(TourList.get(index).findElements(By.xpath(discountXpathRelative)).size(), 0,
 					"Discount % label found");
 		}
 		softAssertion.assertEquals(
-				LocalDate.parse(StartDate.get(index).getText().replaceAll("[a-zA-Z][ ]*", ""), DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+				LocalDate.parse(StartDate.get(index).getText().replaceAll("[a-zA-Z][ ]*", ""),
+						DateTimeFormatter.ofPattern("dd/MM/yyyy")),
 				LocalDate.parse(expTour.getDeparture().getOperatingStartDate()), "StartDate verification failed");
-		softAssertion.assertEquals(Integer.parseInt(Duration.get(index).getText().replaceAll("[^0-9]", "")), expTour.getDuration(),
-				"Duration verification failed");
+		softAssertion.assertEquals(Integer.parseInt(Duration.get(index).getText().replaceAll("[^0-9]", "")),
+				expTour.getDuration(), "Duration verification failed");
 		softAssertion.assertAll();
 	}
-	
+
 	public CheapestTour readTourFromUI(int index) {
 		CheapestTour tour = new CheapestTour();
-		//name, price, date
+		// name, price, date
 		tour.setName(Name.get(index).getText().replaceAll(" +", " ").replaceAll("&", "and"));
 		tour.setDiscountedPrice(Integer.parseInt(Price.get(index).getText().replaceAll("[^0-9]", "")));
 		DepartureTtc departure = new DepartureTtc();
@@ -494,20 +501,20 @@ public class HomePage extends BaseUtil {
 		tour.setDeparture(departure);
 		return tour;
 	}
-	
-	public List<CheapestTour> readAllToursFromUI(){
+
+	public List<CheapestTour> readAllToursFromUI() {
 		List<CheapestTour> toursFromUI = new ArrayList<CheapestTour>();
-		for(int i=0;i < TourList.size(); i++) {
+		for (int i = 0; i < TourList.size(); i++) {
 			toursFromUI.add(readTourFromUI(i));
 		}
 		do {
 			nextpageicon.click();
 			System.out.println("---- Click next");
 			new WebDriverWait(driver, 60);
-			for(int i=0;i < TourList.size(); i++) {
+			for (int i = 0; i < TourList.size(); i++) {
 				toursFromUI.add(readTourFromUI(i));
 			}
-		}while(!nextpageicon.getAttribute("class").contains("disabled"));
+		} while (!nextpageicon.getAttribute("class").contains("disabled"));
 		return toursFromUI;
 	}
 }
