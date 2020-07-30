@@ -50,7 +50,7 @@ public class TourApiDefinitions {
 				TourDossierResultsResponse tour = GAService.getTourByProductLine(prod);
 				Assert.assertTrue(tour.getResults().size() > 0, "Tour with productLine=" + prod + " not found");
 				if (tour.getResults().stream().filter(r -> r.getProductLine().equalsIgnoreCase(prod)).count() != 1) {
-					System.out.println("----- Tour with productLine=" + prod + " not found");
+					System.out.println("! Error: Tour with productLine=" + prod + " not found");
 				}
 				tour.getResults().stream().filter(r -> r.getProductLine().equalsIgnoreCase(prod))
 						.forEach(r -> listIds.add(r.getId()));

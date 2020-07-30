@@ -60,10 +60,14 @@ public class GaUtil {
 		do {
 			departures = new Gson().fromJson(callGaApi(String.format(GET_DEPARTURES, tourId, "?page=" + page)),
 					DeparturesResponse.class);
-			allDeparture.addAll(departures.getResults());
-			System.out.println("---- Page Tours departures " + page);
-			page++;
-		} while (departures.getLinks().stream().anyMatch(l -> "next".equals(l.getRel())));
+			if (departures == null) {
+				System.out.println("! Error: Tour with id=" + tourId + " not found");
+			} else {
+				allDeparture.addAll(departures.getResults());
+				System.out.println("---- Page Tours departures " + page);
+				page++;
+			}
+		} while (departures != null && departures.getLinks().stream().anyMatch(l -> "next".equals(l.getRel())));
 
 		List<Departure> actualDeparture = new ArrayList<Departure>();
 		for (Departure dep : allDeparture)
