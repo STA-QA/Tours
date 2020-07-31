@@ -3,6 +3,7 @@ package com.statravel.apiImplementation.ttcApi.util;
 import static com.jayway.jsonpath.Criteria.where;
 import static com.jayway.jsonpath.Filter.filter;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ import com.statravel.apiImplementation.ttcApi.pojo.TourDetailsResponse;
 import com.statravel.apiImplementation.ttcApi.pojo.TourOption;
 import com.statravel.apiImplementation.ttcApi.util.TtcUtil.Brand;
 import com.statravel.apiImplementation.ttcApi.util.TtcUtil.Region;
+import com.vimalselvam.cucumber.listener.Reporter;
 
 public class TourService {
 
@@ -269,11 +271,15 @@ public class TourService {
 	public void writeToCsv(String fileName, List<String> departuresRecords) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH-mm-ss");
 		fileName += "_" + LocalDateTime.now().format(formatter) + ".csv";
+		String filePath = System.getProperty("user.dir") + File.separatorChar + "Reports" + File.separatorChar;
+		fileName = filePath + fileName;
 		departuresRecords.add(0,
 				"TourId,TourContentName,TrackingId,StartDate,EndDate,Availability,OnlineBookable,DiscountedPrices,Rooms,VisitedPlaces,IsCheapest");
 		try (PrintWriter pw = new PrintWriter(fileName)) {
 			departuresRecords.stream().forEach(pw::println);
 			System.out.println("--------- Please find the data in " + fileName);
+			Reporter.addStepLog(
+					"--------- Please find the data in " + "<a href='" + fileName + "'>" + fileName + "</a>");
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
