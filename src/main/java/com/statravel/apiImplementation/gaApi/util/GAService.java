@@ -1,5 +1,6 @@
 package com.statravel.apiImplementation.gaApi.util;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ import com.statravel.apiImplementation.gaApi.pojo.dossier.TourDossierResponse;
 import com.statravel.apiImplementation.gaApi.pojo.dossier.TourDossierResultsResponse;
 import com.statravel.apiImplementation.gaApi.pojo.dossier.ValidDuringRange;
 import com.statravel.apiImplementation.gaApi.pojo.itineraries.ItinerariesResponse;
+import com.vimalselvam.cucumber.listener.Reporter;
 
 public class GAService {
 
@@ -140,6 +142,8 @@ public class GAService {
 	public static void writeToCsv(String fileName, Map<TourDossierResponse, List<Departure>> actualDepartures) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH-mm-ss");
 		fileName += "_" + LocalDateTime.now().format(formatter) + ".csv";
+		String filePath = System.getProperty("user.dir") + File.separatorChar + "Reports" + File.separatorChar;
+		fileName = filePath + fileName;
 		List<String> departuresRecords = new ArrayList<String>();
 		actualDepartures.keySet().stream()
 				.forEach(td -> departuresRecords.addAll(GAService.getDepartureRecords(td, actualDepartures.get(td))));
@@ -149,18 +153,24 @@ public class GAService {
 		try (PrintWriter pw = new PrintWriter(fileName)) {
 			departuresRecords.stream().forEach(pw::println);
 			System.out.println("--------- Please find the data in " + fileName);
+			Reporter.addStepLog(
+					"--------- Please find the data in " + "<a href='" + fileName + "'>" + fileName + "</a>");
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	public static void writeToCsv(String fileName, List<String> departuresRecords) {
+		String filePath = System.getProperty("user.dir") + File.separatorChar + "Reports" + File.separatorChar;
+		fileName = filePath + fileName;
 		departuresRecords.add(0,
 				"CheapestDeparture,TourDossiersId,ProductLine,Name,DepartureId,StartDate,FinishDate,Availability,Availability.Total,Price in GBP,IsCheapest,VisitedPlaces,"
 						+ "AllPrices,Price in AUD,Price in USD,Price in NZD,Price in CHF,Price in EUR,Rooms,RoomsPrice,ItinerariesUrl");
 		try (PrintWriter pw = new PrintWriter(fileName)) {
 			departuresRecords.stream().forEach(pw::println);
 			System.out.println("--------- Please find the data in " + fileName);
+			Reporter.addStepLog(
+					"--------- Please find the data in " + "<a href='" + fileName + "'>" + fileName + "</a>");
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
